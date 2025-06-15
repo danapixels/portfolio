@@ -1,17 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-
-const NavLinks = () => (
-  <nav className="flex space-x-6">
-    <Link
-      to="/about"
-      className="text-white hover:text-white/80 transition-colors"
-      style={{ fontFamily: "'Pixelify Sans', sans-serif" }}
-    >
-      About
-    </Link>
-  </nav>
-);
+import NavLinks from "./components/NavLinks";
 
 export default function Project() {
   return (
