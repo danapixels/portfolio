@@ -11,6 +11,7 @@ import TypewriterText from "./components/TypewriterText";
 import About from "./About";
 import Project from "./Project";
 import StampingArea from "./components/StampingArea";
+import NavLinks from "./components/NavLinks";
 
 // Add keyframes for the drop-in animation
 const styles = `
@@ -77,18 +78,6 @@ type Stamp = {
   rotation: number;
   user: string;
 };
-
-const NavLinks = () => (
-  <nav className="flex space-x-6">
-    <Link
-      to="/about"
-      className="text-white hover:text-white/80 transition-colors"
-      style={{ fontFamily: "'Pixelify Sans', sans-serif" }}
-    >
-      About
-    </Link>
-  </nav>
-);
 
 export default function App() {
   const [stamps, setStamps] = useState<Stamp[]>([]);

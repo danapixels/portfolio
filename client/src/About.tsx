@@ -4,6 +4,7 @@ import ToggleSwitch from "./components/ToggleSwitch";
 import TypewriterText from "./components/TypewriterText";
 import { Link } from "react-router-dom";
 import StampingArea from "./components/StampingArea";
+import NavLinks from "./components/NavLinks";
 
 // Reuse the same styles from App.tsx
 const styles = `
@@ -59,18 +60,6 @@ const styles = `
     animation: blink .75s step-end infinite;
   }
 `;
-
-const NavLinks = () => (
-  <nav className="flex space-x-6">
-    <a
-      href="/about"
-      className="text-white hover:text-white/80 transition-colors"
-      style={{ fontFamily: "'Pixelify Sans', sans-serif" }}
-    >
-      About
-    </a>
-  </nav>
-);
 
 export default function About() {
   const [isDarkMode, setIsDarkMode] = useState(true);
