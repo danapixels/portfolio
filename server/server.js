@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
@@ -11,7 +10,19 @@ const STAMPS_FILE = path.join(__dirname, 'stamps.json');
 // Load admin key from environment variable or fallback
 const ADMIN_KEY = process.env.ADMIN_KEY || 'my-secret-key';
 
-app.use(cors({ origin: 'http://localhost:3000' })); // restrict to your React app origin
+// Allow all origins during development
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use(bodyParser.json());
 
 // Helper: read stamps safely
@@ -44,12 +55,24 @@ app.get('/api/stamps', (req, res) => {
 // Add new stamp
 app.post('/api/stamps', (req, res) => {
   const newStamp = req.body;
+  const stamps = readStamps();
 
   if (!newStamp.user) {
     return res.status(400).json({ error: 'User is required' });
   }
 
-  const stamps = readStamps();
+  // Validate coordinate format
+  if (typeof newStamp.x !== 'string' || !newStamp.x.endsWith('%') ||
+      typeof newStamp.y !== 'string' || !newStamp.y.endsWith('%')) {
+    return res.status(400).json({ error: 'Coordinates must be percentage values (e.g. "50%")' });
+  }
+
+  // Check if adding this stamp would exceed the global limit
+  if (stamps.length >= 300) {
+    // Clear all stamps when limit is reached
+    writeStamps([]);
+    return res.json({ success: true, message: 'Stamp limit reached, all stamps cleared' });
+  }
 
   // Limit to 10 stamps per user
   const userStamps = stamps.filter(s => s.user === newStamp.user);
@@ -57,7 +80,14 @@ app.post('/api/stamps', (req, res) => {
     return res.status(403).json({ error: 'Stamp limit reached' });
   }
 
-  stamps.push(newStamp);
+  // Ensure we store the percentage values
+  const stampToSave = {
+    ...newStamp,
+    x: newStamp.x,
+    y: newStamp.y
+  };
+
+  stamps.push(stampToSave);
   writeStamps(stamps);
   res.json({ success: true });
 });
@@ -72,6 +102,45 @@ app.delete('/api/stamps', (req, res) => {
 
   writeStamps([]);
   res.json({ success: true });
+});
+
+// Delete stamps for a specific user
+app.post('/api/stamps/clear', (req, res) => {
+  try {
+    const { userId } = req.body;
+    console.log('Clear stamps request received for user:', userId);
+    
+    if (!userId) {
+      console.log('No userId provided in request body');
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+
+    const stamps = readStamps();
+    console.log('Current stamps:', stamps);
+    const updatedStamps = stamps.filter(stamp => stamp.user !== userId);
+    console.log('Updated stamps:', updatedStamps);
+    
+    try {
+      writeStamps(updatedStamps);
+      return res.status(200).json({ 
+        success: true,
+        message: 'Stamps cleared successfully',
+        stampsRemoved: stamps.length - updatedStamps.length
+      });
+    } catch (writeError) {
+      console.error('Error writing stamps:', writeError);
+      return res.status(500).json({ 
+        error: 'Failed to save updated stamps',
+        details: writeError.message 
+      });
+    }
+  } catch (error) {
+    console.error('Error in clear stamps endpoint:', error);
+    return res.status(500).json({ 
+      error: 'Internal server error',
+      details: error.message 
+    });
+  }
 });
 
 app.listen(PORT, () => {

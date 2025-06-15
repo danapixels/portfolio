@@ -10,6 +10,7 @@ import ToggleSwitch from "./components/ToggleSwitch";
 import TypewriterText from "./components/TypewriterText";
 import About from "./About";
 import Project from "./Project";
+import StampingArea from "./components/StampingArea";
 
 // Add keyframes for the drop-in animation
 const styles = `
@@ -96,32 +97,62 @@ export default function App() {
   const [selectedStamp, setSelectedStamp] = useState<StampType | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isWorkHours, setIsWorkHours] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     const id = localStorage.getItem("userId") || crypto.randomUUID();
     localStorage.setItem("userId", id);
     setUserId(id);
 
-    fetch("http://localhost:3001/api/stamps")
-      .then((res) => res.json())
-      .then((data: Stamp[]) => {
+    // Function to fetch stamps
+    const fetchStamps = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/api/stamps");
+        if (!response.ok) {
+          throw new Error('Failed to fetch stamps');
+        }
+        const data: Stamp[] = await response.json();
+        console.log('Fetched stamps:', data); // Debug log
         setStamps(data);
+        // Only count stamps for the current user
         const userCount = data.filter((s) => s.user === id).length;
         setUserStampCount(10 - userCount);
-      })
-      .catch(console.error);
+      } catch (error) {
+        console.error('Error fetching stamps:', error);
+      }
+    };
+
+    // Initial fetch
+    fetchStamps();
+
+    // Set up polling to fetch new stamps every 2 seconds
+    const interval = setInterval(fetchStamps, 2000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  const handlePlaceStamp = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!selectedStamp || userStampCount <= 0) return;
+  const handlePlaceStamp = async (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!selectedStamp || userStampCount <= 0) {
+      console.log('Cannot place stamp:', { selectedStamp, userStampCount }); // Debug log
+      return;
+    }
 
     const stampArea = document.getElementById("stamping-area");
-    if (!stampArea) return;
+    if (!stampArea) {
+      console.log('Stamp area not found'); // Debug log
+      return;
+    }
     
+    // Get the click coordinates relative to the stamping area
     const rect = stampArea.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    // Check if the click is within the stamping area bounds
+    if (x < 0 || x > 100 || y < 0 || y > 100) {
+      console.log('Click outside stamping area bounds'); // Debug log
+      return;
+    }
     
     const rotation = Math.random() * 30 - 15;
 
@@ -134,23 +165,78 @@ export default function App() {
       user: userId,
     };
 
-    setStamps((prev) => [...prev, newStamp]);
-    setUserStampCount((prev) => prev - 1);
+    console.log('Attempting to place stamp:', newStamp); // Debug log
+
+    try {
+      // Send to server first
+      const response = await fetch("http://localhost:3001/api/stamps", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newStamp),
+      });
+
+      const data = await response.json();
+      console.log('Server response:', data); // Debug log
+
+      if (!response.ok) {
+        if (data.error === 'Stamp limit reached') {
+          alert('You have reached your stamp limit!');
+          return;
+        }
+        throw new Error(data.error || 'Failed to save stamp');
+      }
+
+      // Immediately fetch updated stamps from server
+      const stampsResponse = await fetch("http://localhost:3001/api/stamps");
+      if (stampsResponse.ok) {
+        const updatedStamps: Stamp[] = await stampsResponse.json();
+        console.log('Updated stamps from server:', updatedStamps); // Debug log
+        setStamps(updatedStamps);
+        const userCount = updatedStamps.filter((s) => s.user === userId).length;
+        setUserStampCount(10 - userCount);
+      }
+    } catch (error) {
+      console.error("Failed to save stamp:", error);
+      alert('Failed to place stamp. Please try again.');
+    }
   };
 
-  const clearStamps = useCallback(() => {
-    if (!userId) return;
+  const clearStamps = useCallback(async () => {
+    if (!userId) {
+      console.log('No userId available');
+      return;
+    }
 
-    const otherUsersStamps = stamps.filter(stamp => stamp.user !== userId);
-    const myStampsCount = stamps.filter(stamp => stamp.user === userId).length;
-    
-    setStamps(otherUsersStamps);
-    setUserStampCount(10);
-
-    fetch(`http://localhost:3001/api/stamps/user/${userId}`, { method: "DELETE" })
-      .catch((error) => {
-        console.error("Failed to clear user stamps on server:", error);
+    try {
+      console.log('Attempting to clear stamps for user:', userId);
+      // Clear user's stamps using POST request
+      const response = await fetch('http://localhost:3001/api/stamps/clear', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userId })
       });
+
+      console.log('Server response status:', response.status);
+      const data = await response.json().catch(e => ({ error: 'No JSON response' }));
+      console.log('Server response data:', data);
+
+      if (!response.ok) {
+        throw new Error(`Failed to clear stamps: ${data.error || response.statusText}`);
+      }
+
+      // Update local state to remove user's stamps
+      const otherUsersStamps = stamps.filter(stamp => stamp.user !== userId);
+      console.log('Updating local state with stamps:', otherUsersStamps);
+      setStamps(otherUsersStamps);
+      setUserStampCount(10);
+    } catch (error) {
+      console.error("Failed to clear stamps:", error);
+      alert('Failed to clear stamps. Please try again.');
+    }
   }, [stamps, userId]);
 
   const dockItems = [
@@ -195,10 +281,13 @@ export default function App() {
                 backgroundSize: "32px 32px",
               }}
             >
+              {/* Add StampingArea component */}
+              <StampingArea />
+
               {/* Header */}
-              <header className="w-full z-50">
+              <header className="w-full z-50 pointer-events-none">
                 <div className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
-                  <div className="flex items-center">
+                  <div className="flex items-center pointer-events-auto">
                     <a href="/" className="block">
                       <img 
                         src="/logo.png" 
@@ -207,14 +296,15 @@ export default function App() {
                       />
                     </a>
                   </div>
-                  <nav>
+                  <nav className="pointer-events-auto">
                     <NavLinks />
                   </nav>
                 </div>
               </header>
 
               {/* Main content container */}
-              <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-4 items-center justify-center z-20 px-4 min-h-[calc(100vh-200px)]">
+              <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-4 items-center justify-center z-10 px-4 min-h-[calc(100vh-200px)] relative">
+                {/* Content containers */}
                 <div
                   className="bg-[#0d0d0d] rounded-2xl shadow-2xl flex-1 flex flex-col items-center w-full lg:w-[400px] animate-drop-in relative"
                   style={{ backdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.05)" }}
@@ -273,7 +363,7 @@ export default function App() {
                 </div>
 
                 {/* Projects Section */}
-                <div className="w-full lg:w-[400px] space-y-4 animate-drop-in">
+                <div className="w-full lg:w-[400px] space-y-4 animate-drop-in relative z-10">
                   <div className="bg-[#0d0d0d] rounded-2xl shadow-2xl p-6 backdrop-blur-md border border-white/5">
                     <div className="space-y-4">
                       <Link 
@@ -332,42 +422,16 @@ export default function App() {
               </div>
 
               {/* Dock */}
-              <div className="fixed bottom-0 left-0 right-0 z-50">
-                <Dock 
-                  items={dockItems}
-                  selectedStamp={selectedStamp}
-                  panelHeight={68}
-                  baseItemSize={50}
-                  magnification={70}
-                />
-              </div>
-
-              {/* Stamp Board */}
-              <div 
-                id="stamping-area"
-                onClick={handlePlaceStamp}
-                className="fixed inset-0 z-10"
-                style={{ cursor: selectedStamp ? "crosshair" : "default" }}
-              >
-                {stamps.map((stamp) => (
-                  <div
-                    key={stamp.id}
-                    style={{
-                      position: "absolute",
-                      left: stamp.x,
-                      top: stamp.y,
-                      transform: `translate(-50%, -50%) rotate(${stamp.rotation}deg)`,
-                      cursor: "pointer",
-                      zIndex: 20,
-                      filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))",
-                      transition: "transform 0.2s ease-out",
-                    }}
-                    className="hover:scale-110"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {stampIcons[stamp.type]}
-                  </div>
-                ))}
+              <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
+                <div className="pointer-events-auto">
+                  <Dock 
+                    items={dockItems}
+                    selectedStamp={selectedStamp}
+                    panelHeight={68}
+                    baseItemSize={50}
+                    magnification={70}
+                  />
+                </div>
               </div>
 
               <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 px-6 py-2 rounded-full text-white font-semibold pointer-events-none z-50" style={{ fontFamily: "'Pixelify Sans', sans-serif", fontSize: '16px', backgroundColor: 'rgba(17, 17, 17, 0.5)' }}>
