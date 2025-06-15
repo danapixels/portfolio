@@ -254,6 +254,46 @@ export default function App() {
     },
   ];
 
+  const projects = isDarkMode ? [
+    {
+      title: "Project One",
+      description: "A brief description of your first project. What technologies did you use? What problems did it solve?",
+      image: "https://via.placeholder.com/80",
+      link: "/project"
+    },
+    {
+      title: "Project Two",
+      description: "Description of your second project. Highlight the key features and your role in development.",
+      image: "https://via.placeholder.com/80",
+      link: "https://github.com/yourusername/project2"
+    },
+    {
+      title: "Project Three",
+      description: "Details about your third project. What makes it unique? What challenges did you overcome?",
+      image: "https://via.placeholder.com/80",
+      link: "https://github.com/yourusername/project3"
+    }
+  ] : [
+    {
+      title: "Project Three",
+      description: "An innovative project showcasing advanced data visualization techniques and real-time analytics.",
+      image: "https://via.placeholder.com/80",
+      link: "/project"
+    },
+    {
+      title: "Project Four",
+      description: "A full-stack application demonstrating modern web development practices and scalable architecture.",
+      image: "https://via.placeholder.com/80",
+      link: "https://github.com/yourusername/project4"
+    },
+    {
+      title: "Project Five",
+      description: "A creative project exploring the intersection of art and technology through interactive experiences.",
+      image: "https://via.placeholder.com/80",
+      link: "https://github.com/yourusername/project5"
+    }
+  ];
+
   return (
     <Router>
       <Routes>
@@ -355,56 +395,45 @@ export default function App() {
                 <div className="w-full lg:w-[400px] space-y-4 animate-drop-in relative z-10">
                   <div className="bg-[#0d0d0d] rounded-2xl shadow-2xl p-6 backdrop-blur-md border border-white/5">
                     <div className="space-y-4">
-                      <Link 
-                        to="/project" 
-                        className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left"
-                      >
-                        <div className="flex gap-4 items-start">
-                          <img 
-                            src="https://via.placeholder.com/80" 
-                            alt="Project One" 
-                            className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
-                          />
-                          <div className="flex-1 text-left">
-                            <h3 className="text-xl font-semibold mb-2 text-white">Project One</h3>
-                            <p className="text-white/80 text-left">A brief description of your first project. What technologies did you use? What problems did it solve?</p>
-                          </div>
-                        </div>
-                      </Link>
-                      
-                      <a 
-                        href="https://github.com/yourusername/project2" 
-                        className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left"
-                      >
-                        <div className="flex gap-4 items-start">
-                          <img 
-                            src="https://via.placeholder.com/80" 
-                            alt="Project Two" 
-                            className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
-                          />
-                          <div className="flex-1 text-left">
-                            <h3 className="text-xl font-semibold mb-2 text-white">Project Two</h3>
-                            <p className="text-white/80 text-left">Description of your second project. Highlight the key features and your role in development.</p>
-                          </div>
-                        </div>
-                      </a>
-                      
-                      <a 
-                        href="https://github.com/yourusername/project3" 
-                        className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left"
-                      >
-                        <div className="flex gap-4 items-start">
-                          <img 
-                            src="https://via.placeholder.com/80" 
-                            alt="Project Three" 
-                            className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
-                          />
-                          <div className="flex-1 text-left">
-                            <h3 className="text-xl font-semibold mb-2 text-white">Project Three</h3>
-                            <p className="text-white/80 text-left">Details about your third project. What makes it unique? What challenges did you overcome?</p>
-                          </div>
-                        </div>
-                      </a>
+                      {projects.map((project, index) => (
+                        project.link.startsWith('/') ? (
+                          <Link 
+                            key={index}
+                            to={project.link}
+                            className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left"
+                          >
+                            <div className="flex gap-4 items-start">
+                              <img 
+                                src={project.image}
+                                alt={project.title}
+                                className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+                              />
+                              <div className="flex-1 text-left">
+                                <h3 className="text-xl font-semibold mb-2 text-white">{project.title}</h3>
+                                <p className="text-white/80 text-left">{project.description}</p>
+                              </div>
+                            </div>
+                          </Link>
+                        ) : (
+                          <a 
+                            key={index}
+                            href={project.link}
+                            className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left"
+                          >
+                            <div className="flex gap-4 items-start">
+                              <img 
+                                src={project.image}
+                                alt={project.title}
+                                className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+                              />
+                              <div className="flex-1 text-left">
+                                <h3 className="text-xl font-semibold mb-2 text-white">{project.title}</h3>
+                                <p className="text-white/80 text-left">{project.description}</p>
+                              </div>
+                            </div>
+                          </a>
+                        )
+                      ))}
                     </div>
                   </div>
                 </div>
