@@ -3,6 +3,7 @@ import { useState } from "react";
 import ToggleSwitch from "./components/ToggleSwitch";
 import TypewriterText from "./components/TypewriterText";
 import { Link } from "react-router-dom";
+import StampingArea from "./components/StampingArea";
 
 // Reuse the same styles from App.tsx
 const styles = `
@@ -72,7 +73,7 @@ const NavLinks = () => (
 );
 
 export default function About() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   return (
     <>
@@ -85,10 +86,13 @@ export default function About() {
           backgroundSize: "32px 32px",
         }}
       >
+        {/* Add StampingArea component */}
+        <StampingArea />
+
         {/* Header */}
-        <header className="w-full z-50">
+        <header className="w-full z-50 pointer-events-none">
           <div className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div className="flex items-center">
+            <div className="flex items-center pointer-events-auto">
               <a href="/" className="block">
                 <img 
                   src="/logo.png" 
@@ -97,7 +101,7 @@ export default function About() {
                 />
               </a>
             </div>
-            <nav>
+            <nav className="pointer-events-auto">
               <NavLinks />
             </nav>
           </div>
