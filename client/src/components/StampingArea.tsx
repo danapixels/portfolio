@@ -194,7 +194,7 @@ export default function StampingArea({ className = "" }: StampingAreaProps) {
       <div 
         id="stamping-area"
         onClick={handlePlaceStamp}
-        className={`fixed inset-0 z-0 pointer-events-none ${className}`}
+        className={`fixed inset-0 z-0 ${className}`}
         style={{ 
           cursor: selectedStamp ? "crosshair" : "default",
           pointerEvents: selectedStamp ? "auto" : "none",
@@ -239,7 +239,7 @@ export default function StampingArea({ className = "" }: StampingAreaProps) {
         </div>
       </div>
 
-      <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 px-6 py-2 rounded-full text-white font-semibold pointer-events-none z-50" style={{ fontFamily: "'Pixelify Sans', sans-serif", fontSize: '16px', backgroundColor: 'rgba(17, 17, 17, 0.5)' }}>
+      <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 px-6 py-2 rounded-full text-white font-semibold pointer-events-none z-40" style={{ fontFamily: "'Pixelify Sans', sans-serif", fontSize: '16px', backgroundColor: 'rgba(17, 17, 17, 0.5)' }}>
         {userStampCount} stamps left
       </div>
     </>

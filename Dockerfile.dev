@@ -1,0 +1,27 @@
+# Development Dockerfile
+FROM node:18-alpine AS base
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY client/package*.json ./client/
+COPY server/package*.json ./server/
+
+# Install dependencies
+RUN npm ci --prefix ./client && npm ci --prefix ./server
+
+# Copy source code
+COPY client/ ./client/
+COPY server/ ./server/
+
+# Expose ports
+EXPOSE 3000 3001
+
+# Create environment file for development
+RUN echo "NODE_ENV=development" > .env.dev && \
+    echo "VITE_API_URL=http://localhost:3001" >> .env.dev && \
+    echo "ADMIN_KEY=dev-secret-key" >> .env.dev
+
+# Start both client and server in development mode
+CMD ["sh", "-c", "cd server && npm start & cd client && npm run dev"] 

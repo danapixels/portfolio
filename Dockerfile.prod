@@ -1,0 +1,49 @@
+# Production Dockerfile
+FROM node:18-alpine AS base
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY client/package*.json ./client/
+COPY server/package*.json ./server/
+
+# Install dependencies
+RUN npm ci --prefix ./client && npm ci --prefix ./server
+
+# Copy source code
+COPY client/ ./client/
+COPY server/ ./server/
+
+# Build client for production
+RUN cd client && npm run build
+
+# Production stage
+FROM node:18-alpine AS production
+
+# Install nginx
+RUN apk add --no-cache nginx
+
+# Set working directory
+WORKDIR /app
+
+# Copy built client files
+COPY --from=base /app/client/dist /usr/share/nginx/html
+
+# Copy server files
+COPY --from=base /app/server /app/server
+COPY --from=base /app/server/node_modules /app/server/node_modules
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Create environment file for production
+RUN echo "NODE_ENV=production" > .env.prod && \
+    echo "VITE_API_URL=/api" >> .env.prod && \
+    echo "ADMIN_KEY=prod-secret-key-change-me" >> .env.prod
+
+# Expose port
+EXPOSE 80
+
+# Start nginx and server
+CMD ["sh", "-c", "nginx && cd server && node server.js"] 
