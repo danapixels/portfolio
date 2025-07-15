@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  portfolio-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"  # Vite dev server
+      - "3001:3001"  # Express server
+    volumes:
+      - ./client:/app/client
+      - ./server:/app/server
+      - /app/client/node_modules
+      - /app/server/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:3001
+      - ADMIN_KEY=dev-secret-key
+    networks:
+      - portfolio-dev
+
+networks:
+  portfolio-dev:
+    driver: bridge 
