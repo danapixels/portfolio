@@ -73,7 +73,7 @@ export default function App() {
   const [hasAnimatedTexts, setHasAnimatedTexts] = useState<{ dark: boolean; light: boolean }>({ dark: false, light: false });
 
   const darkModeText = "I'm Dana Espine (: A Senior Product Designer at IBM iX. My niche is engineering, data, AI, and advocating for designers.";
-  const lightModeText = "UI/UX open source enthusiast, iamafk creator, owner of 2 cats, and indie gamer.";
+  const lightModeText = "UI/UX open source advocate, afker, owner of 2 cats, pixel art lover, non-verbal interaction enthusiast, and indie game supporter.";
 
   const currentKey = isDarkMode ? 'dark' : 'light';
   const currentText = isDarkMode ? darkModeText : lightModeText;
@@ -237,7 +237,7 @@ export default function App() {
                             to={project.link}
                             className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left"
                           >
-                            <div className="flex gap-4 items-start">
+                            <div className="flex gap-4 items-center">
                               <img 
                                 src={project.image}
                                 alt={project.title}
@@ -255,7 +255,7 @@ export default function App() {
                             href={project.link}
                             className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left"
                           >
-                            <div className="flex gap-4 items-start">
+                            <div className="flex gap-4 items-center">
                               <img 
                                 src={project.image}
                                 alt={project.title}
