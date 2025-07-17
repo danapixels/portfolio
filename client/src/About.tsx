@@ -64,6 +64,43 @@ const styles = `
 export default function About() {
   const [isDarkMode, setIsDarkMode] = useState(true);
 
+  const darkModeContent = {
+    title: "i am a senior product designer.",
+    description1: "I am a product designer based in Queens, New York. I have the privilege to work alongside the brightest minds at IBM and with the various designers within my client teams. Working with various industries has pushed my growth exponentially through product team collaboration and differing ways of working. I've learned to become adaptable and gladly meet the moment for each of my teams.",
+    description2: "I specialize in engineering tools, AI, and data analysis tools. These 3 building blocks that have built me up as a designer, also directly correlate to my values of bridging the gap between UX and engineering, pushing the boundaries, and data transparency.",
+    skills: [
+      "High fidelity prototyping",
+      "UX thought leadership", 
+      "Wireframing",
+      "Design thinking facilitation",
+      "Design mentorship"
+    ],
+    contact: [
+      "Email: your.email@example.com",
+      "GitHub: github.com/yourusername", 
+      "LinkedIn: linkedin.com/in/yourusername"
+    ]
+  };
+
+  const lightModeContent = {
+    title: "i am a chronically online creator.",
+    description1: "I'm a creative engineer focused on building meaningful experiences through code and design. My passion lies in data visualization and creating interfaces that make complex information accessible.",
+    description2: "Beyond coding, I enjoy contributing to open-source communities, mentoring new developers, and exploring the intersection of art and technology.",
+    skills: [
+      "Data Visualization",
+      "Creative Coding",
+      "Open Source",
+      "Technical Writing"
+    ],
+    contact: [
+      "Email: your.email@example.com",
+      "GitHub: github.com/yourusername",
+      "LinkedIn: linkedin.com/in/yourusername"
+    ]
+  };
+
+  const currentContent = isDarkMode ? darkModeContent : lightModeContent;
+
   return (
     <>
       <style>{styles}</style>
@@ -113,13 +150,12 @@ export default function About() {
                   <div className="text-center space-y-6">
                     <div className="flex flex-col space-y-4 mb-6">
                       <motion.div
-                        className="text-xl font-light"
+                        className="text-xl font-light font-digi"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
-                        style={{ fontFamily: "'Pixelify Sans', sans-serif" }}
                       >
-                        <TypewriterText text={isDarkMode ? "Frontend Developer & UI/UX Enthusiast" : "Creative Engineer & Data Visualization Specialist"} />
+                        <TypewriterText text={currentContent.title} />
                       </motion.div>
                       <motion.div
                         initial={{ opacity: 0, x: -20 }}
@@ -139,32 +175,38 @@ export default function About() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.6 }}
                     >
-                      <h2 className="text-2xl font-semibold" style={{ fontFamily: "'Pixelify Sans', sans-serif" }}>About Me</h2>
-                      <p className="text-white text-lg leading-relaxed">
-                        I'm a passionate developer with a keen eye for design and a love for creating intuitive user experiences. 
-                        With expertise in frontend development and data visualization, I strive to build applications that are both 
-                        beautiful and functional.
+                      <h2 className="text-2xl font-semibold font-digi">about me</h2>
+                      <div className="flex justify-center mb-6">
+                        <img 
+                          src={isDarkMode ? "/mainport.png" : "/portrait.png"}
+                          alt="Portfolio Image"
+                          className="rounded-lg"
+                        />
+                      </div>
+                      <p className="text-white text-sm leading-relaxed">
+                        {currentContent.description1}
                       </p>
-                      <p className="text-white text-lg leading-relaxed">
-                        When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, 
-                        or sharing my knowledge through technical writing and mentoring.
+                      <p className="text-white text-sm leading-relaxed">
+                        {currentContent.description2}
                       </p>
                       <div className="grid grid-cols-2 gap-4 mt-6">
                         <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5">
-                          <h3 className="text-lg font-semibold mb-2" style={{ fontFamily: "'Pixelify Sans', sans-serif" }}>Skills</h3>
-                          <ul className="text-white/80 space-y-2">
-                            <li>React & TypeScript</li>
-                            <li>Data Visualization</li>
-                            <li>UI/UX Design</li>
-                            <li>Responsive Web Design</li>
+                          <h3 className="text-lg font-semibold mb-2 font-digi">skills</h3>
+                          <ul className="text-white/80 space-y-2 text-center flex flex-col justify-center min-h-[120px]">
+                            {currentContent.skills.map((skill, index) => (
+                              <li key={index} className="flex items-center justify-center text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>
+                                <img src="/sparkle.png" alt="sparkle" className="mr-2 flex-shrink-0" />
+                                {skill}
+                              </li>
+                            ))}
                           </ul>
                         </div>
                         <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5">
-                          <h3 className="text-lg font-semibold mb-2" style={{ fontFamily: "'Pixelify Sans', sans-serif" }}>Contact</h3>
+                          <h3 className="text-lg font-semibold mb-2 font-digi">contact</h3>
                           <ul className="text-white/80 space-y-2">
-                            <li>Email: your.email@example.com</li>
-                            <li>GitHub: github.com/yourusername</li>
-                            <li>LinkedIn: linkedin.com/in/yourusername</li>
+                            {currentContent.contact.map((contact, index) => (
+                              <li key={index} className="text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>{contact}</li>
+                            ))}
                           </ul>
                         </div>
                       </div>
