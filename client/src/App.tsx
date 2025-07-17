@@ -70,45 +70,55 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isWorkHours, setIsWorkHours] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [hasAnimatedTexts, setHasAnimatedTexts] = useState<{ dark: boolean; light: boolean }>({ dark: false, light: false });
 
+  const darkModeText = "I'm Dana Espine (: A Senior Product Designer at IBM iX. My niche is engineering, data, AI, and advocating for designers.";
+  const lightModeText = "UI/UX open source enthusiast, iamafk creator, owner of 2 cats, and indie gamer.";
+
+  const currentKey = isDarkMode ? 'dark' : 'light';
+  const currentText = isDarkMode ? darkModeText : lightModeText;
+
+  const handleTextAnimationComplete = () => {
+    setHasAnimatedTexts(prev => ({ ...prev, [currentKey]: true }));
+  };
 
 
   const projects = isDarkMode ? [
     {
       title: "Google Core Data",
-      description: "A brief description of your first project. What technologies did you use? What problems did it solve?",
-      image: "https://via.placeholder.com/80",
+      description: "designing a way for Googlers to better understand their data",
+      image: "/google.png",
       link: "/project"
     },
     {
       title: "Google Firebase",
-      description: "Description of your second project. Highlight the key features and your role in development.",
-      image: "https://via.placeholder.com/80",
+      description: "creating a better way for developers to monitor their apps",
+      image: "/firebase.png",
       link: "https://github.com/yourusername/project2"
     },
     {
       title: "Chevron",
-      description: "Details about your third project. What makes it unique? What challenges did you overcome?",
-      image: "https://via.placeholder.com/80",
+      description: "helping employees reduce and understand risk",
+      image: "/chevron.png",
       link: "https://github.com/yourusername/project3"
     }
   ] : [
     {
       title: "iamafk",
-      description: "An innovative project showcasing advanced data visualization techniques and real-time analytics.",
-      image: "https://via.placeholder.com/80",
+      description: "a place for your cursor to rest with your friends",
+      image: "/iamafk.png",
       link: "/project"
     },
     {
       title: "Digi garden",
-      description: "A full-stack application demonstrating modern web development practices and scalable architecture.",
-      image: "https://via.placeholder.com/80",
+      description: "a place for my thoughts and writing",
+      image: "/digi.png",
       link: "https://github.com/yourusername/project4"
     },
     {
-      title: "Free UI/UX",
-      description: "A creative project exploring the intersection of art and technology through interactive experiences.",
-      image: "https://via.placeholder.com/80",
+      title: "Digi font",
+      description: "my open-source lowercase pixel font",
+      image: "/font.png",
       link: "https://github.com/yourusername/project5"
     }
   ];
@@ -174,7 +184,13 @@ export default function App() {
                               transition={{ duration: 0.5, delay: 0.4 }}
                               style={{ fontFamily: "'Pixelify Sans', sans-serif" }}
                             >
-                              <TypewriterText text={isDarkMode ? "My name is Dana Espine (: Senior Product Designer at IBM iX creating finding the middle ground between business and joy. My niche is engineering, data, AI, and advocating for the design community." : "UI/UX open source enthusiast, iamafk creator, owner of 2 cats, and indie gamer."} />
+                              <div className="font-digi">
+                                <TypewriterText 
+                                  text={currentText} 
+                                  onComplete={handleTextAnimationComplete}
+                                  isAnimated={!hasAnimatedTexts[currentKey]}
+                                />
+                              </div>
                             </motion.div>
                             <motion.div
                               initial={{ opacity: 0, x: -20 }}
@@ -194,7 +210,7 @@ export default function App() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.6 }}
                           >
-                            <p className="text-white text-lg leading-relaxed">
+                            <p className="text-white text-sm leading-relaxed">
                               I created an interactive stamp board for everyone visitng my portfolio. Feel free to stamp wherever you want! But you only get 10 stamps. The trash can helps you clear all your stamps if you want.
                             </p>
                           </motion.div>
@@ -228,8 +244,8 @@ export default function App() {
                                 className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
                               />
                               <div className="flex-1 text-left">
-                                <h3 className="text-xl font-semibold mb-2 text-white">{project.title}</h3>
-                                <p className="text-white/80 text-left">{project.description}</p>
+                                <h3 className="text-base mb-2 text-white font-roboto" style={{ fontWeight: 400, fontFamily: 'Roboto, sans-serif' }}>{project.title}</h3>
+                                <p className="text-white/80 text-left text-sm">{project.description}</p>
                               </div>
                             </div>
                           </Link>
@@ -246,8 +262,8 @@ export default function App() {
                                 className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
                               />
                               <div className="flex-1 text-left">
-                                <h3 className="text-xl font-semibold mb-2 text-white">{project.title}</h3>
-                                <p className="text-white/80 text-left">{project.description}</p>
+                                <h3 className="text-base mb-2 text-white font-roboto" style={{ fontWeight: 400, fontFamily: 'Roboto, sans-serif' }}>{project.title}</h3>
+                                <p className="text-white/80 text-left text-sm">{project.description}</p>
                               </div>
                             </div>
                           </a>
