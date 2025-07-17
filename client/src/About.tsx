@@ -73,7 +73,8 @@ export default function About() {
       "UX thought leadership", 
       "Wireframing",
       "Design thinking facilitation",
-      "Design mentorship"
+      "Design mentorship",
+      "Creating concepts from ambiguous ideas"
     ],
     contact: [
       "Email: your.email@example.com",
@@ -84,13 +85,15 @@ export default function About() {
 
   const lightModeContent = {
     title: "i am a chronically online creator.",
-    description1: "I'm a creative engineer focused on building meaningful experiences through code and design. My passion lies in data visualization and creating interfaces that make complex information accessible.",
-    description2: "Beyond coding, I enjoy contributing to open-source communities, mentoring new developers, and exploring the intersection of art and technology.",
+    description1: "My passion is execution of my ideas and seeing them come to life. I love creating experiences inside and outside of work. I am a big advocate for UX/UI to understand the engineering lifecycle and the importance of open-source AND free software. Bringing UX/UI to open-source means faster iterations, different perspectives, and bringing light to voices who otherwise might not have been heard.",
+    description2: "To push the boundaries of our potential as designers, it's important to understand the process of engineering but also how we can best communicate our thoughts and ideas in a way everyone can understand. The best way to provide the best UX for our users is if everyone can speak the same \"working language,\" right?",
     skills: [
-      "Data Visualization",
-      "Creative Coding",
-      "Open Source",
-      "Technical Writing"
+      "Indie games (Binding of Isaac)",
+      "Making stuff",
+      "Reading (Sci-fi and Fantasy)",
+      "Writing",
+      "Watching movies (Truman Show)",
+      "Teaching"
     ],
     contact: [
       "Email: your.email@example.com",
@@ -134,92 +137,118 @@ export default function About() {
         </header>
 
         {/* Main content container */}
-        <div className="max-w-screen-xl mx-auto flex flex-col items-center justify-center z-20 px-4 min-h-[calc(100vh-200px)]">
-          <div
-            className="bg-[#0d0d0d] rounded-2xl shadow-2xl flex-1 flex flex-col items-center w-full max-w-2xl animate-drop-in relative"
-            style={{ backdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.05)" }}
-          >
-            <div className="w-full flex flex-col items-center">
-              <img 
-                src="/border.png" 
-                alt="Top border" 
-                className="w-auto h-auto mb-8 mt-8"
-              />
-              <div className="w-full px-6 sm:px-10">
-                <section className="w-full flex flex-col items-center space-y-6">
-                  <div className="text-center space-y-6">
-                    <div className="flex flex-col space-y-4 mb-6">
+        <div className="max-w-screen-xl mx-auto flex items-center justify-center z-20 px-4 min-h-[calc(100vh-200px)]">
+          <div className="flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-4 w-full max-w-6xl">
+            <div
+              className="bg-[#0d0d0d] rounded-2xl shadow-2xl flex flex-col items-center w-full max-w-xl animate-drop-in relative"
+              style={{ backdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.05)" }}
+            >
+              <div className="w-full flex flex-col items-center">
+                <img 
+                  src="/border.png" 
+                  alt="Top border" 
+                  className="w-auto h-auto mb-8 mt-8"
+                />
+                <div className="w-full px-6 sm:px-10">
+                  <section className="w-full flex flex-col items-center space-y-6">
+                    <div className="text-center space-y-6">
+                      <div className="flex flex-col space-y-4 mb-6">
+                        <motion.div
+                          className="text-xl font-light font-digi"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.5, delay: 0.4 }}
+                        >
+                          <TypewriterText text={currentContent.title} />
+                        </motion.div>
+                        <motion.div
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.5, delay: 0.2 }}
+                          className="flex justify-center"
+                        >
+                          <ToggleSwitch
+                            isOn={isDarkMode}
+                            handleToggle={() => setIsDarkMode(!isDarkMode)}
+                          />
+                        </motion.div>
+                      </div>
                       <motion.div
-                        className="text-xl font-light font-digi"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
+                        className="bg-[#111111] p-6 rounded-lg border border-white/5 text-center space-y-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.6 }}
                       >
-                        <TypewriterText text={currentContent.title} />
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="flex justify-center"
-                      >
-                        <ToggleSwitch
-                          isOn={isDarkMode}
-                          handleToggle={() => setIsDarkMode(!isDarkMode)}
-                        />
+                        <h2 className="text-2xl font-semibold font-digi">about me</h2>
+                        <div className="flex justify-center mb-6">
+                          <img 
+                            src={isDarkMode ? "/mainport.png" : "/portrait.png"}
+                            alt="Portfolio Image"
+                            className="rounded-lg"
+                          />
+                        </div>
+                        <p className="text-white text-sm leading-relaxed">
+                          {currentContent.description1}
+                        </p>
+                        <p className="text-white text-sm leading-relaxed">
+                          {currentContent.description2}
+                        </p>
                       </motion.div>
                     </div>
-                    <motion.div
-                      className="bg-[#111111] p-6 rounded-lg border border-white/5 text-center space-y-6"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.6 }}
-                    >
-                      <h2 className="text-2xl font-semibold font-digi">about me</h2>
-                      <div className="flex justify-center mb-6">
-                        <img 
-                          src={isDarkMode ? "/mainport.png" : "/portrait.png"}
-                          alt="Portfolio Image"
-                          className="rounded-lg"
-                        />
-                      </div>
-                      <p className="text-white text-sm leading-relaxed">
-                        {currentContent.description1}
-                      </p>
-                      <p className="text-white text-sm leading-relaxed">
-                        {currentContent.description2}
-                      </p>
-                      <div className="grid grid-cols-2 gap-4 mt-6">
-                        <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5">
-                          <h3 className="text-lg font-semibold mb-2 font-digi">skills</h3>
-                          <ul className="text-white/80 space-y-2 text-center flex flex-col justify-center min-h-[120px]">
-                            {currentContent.skills.map((skill, index) => (
-                              <li key={index} className="flex items-center justify-center text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>
-                                <img src="/sparkle.png" alt="sparkle" className="mr-2 flex-shrink-0" />
-                                {skill}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5">
-                          <h3 className="text-lg font-semibold mb-2 font-digi">contact</h3>
-                          <ul className="text-white/80 space-y-2">
-                            {currentContent.contact.map((contact, index) => (
-                              <li key={index} className="text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>{contact}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </div>
-                </section>
+                  </section>
+                </div>
+                <img 
+                  src="/border.png" 
+                  alt="Bottom border" 
+                  className="w-auto h-auto mt-8 mb-8"
+                  style={{ transform: 'rotate(180deg)' }}
+                />
               </div>
-              <img 
-                src="/border.png" 
-                alt="Bottom border" 
-                className="w-auto h-auto mt-8 mb-8"
-                style={{ transform: 'rotate(180deg)' }}
-              />
+            </div>
+            
+            {/* Side containers positioned outside main content */}
+            <div className="space-y-4 flex-shrink-0 w-full lg:w-auto">
+              <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 w-full lg:w-50 animate-drop-in">
+                <h3 className="text-lg font-semibold mb-2 font-digi text-left">{isDarkMode ? "skills" : "hobbies"}</h3>
+                <ul className="text-white/80 space-y-2 flex flex-col min-h-[120px]">
+                  {currentContent.skills.map((skill, index) => (
+                    <li key={index} className="text-sm flex items-start" style={{ fontFamily: 'Roboto, sans-serif' }}>
+                      <img src="/sparkle.png" alt="sparkle" className="mr-2 flex-shrink-0 mt-0.5" />
+                      <span className="text-left">{skill}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 flex flex-col min-h-[120px] w-full lg:w-50 animate-drop-in">
+                <h3 className="text-lg font-semibold mb-2 font-digi text-left">contact</h3>
+                <div className="space-y-3 flex-1 flex flex-col justify-center">
+                  <a 
+                    href="https://www.linkedin.com/in/danaespine/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+                  >
+                    <img src="/linkedin.png" alt="LinkedIn" className="w-8 h-8" />
+                    <span className="text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>/danaespine</span>
+                  </a>
+                  <a 
+                    href="https://github.com/danapixels" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+                  >
+                    <img src="/github.png" alt="GitHub" className="w-8 h-8" />
+                    <span className="text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>/danapixels</span>
+                  </a>
+                  <a 
+                    href="mailto:hi@dana.nyc"
+                    className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+                  >
+                    <img src="/email.png" alt="Email" className="w-8 h-8" />
+                    <span className="text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>hi@dana.nyc</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
