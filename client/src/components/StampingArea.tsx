@@ -2,7 +2,22 @@ import { useState, useCallback, useEffect } from "react";
 import Dock from "./Dock";
 import type { DockItemData } from "./Dock";
 import { stampIcons } from "./stampIcons";
-import type { StampType } from "./types";
+import type { StampType, UserIdentity } from "./types";
+
+const getIconForIdentity = (identity: UserIdentity) => {
+  switch (identity) {
+    case "PM": return "/PM.png";
+    case "Engineer": return "/engineer.png";
+    case "Manager": return "/manager.png";
+    case "Leadership": return "/leadership.png";
+    case "Recruiter": return "/recruiter.png";
+    case "Friend": return "/friend.png";
+    case "Cat": return "/caticon.png";
+    case "Designer": return "/designer.png";
+    case "Other": return "/other.png";
+    default: return "";
+  }
+};
 
 type Stamp = {
   id: string;
@@ -11,22 +26,38 @@ type Stamp = {
   y: string;
   rotation: number;
   user: string;
+  userIdentity?: UserIdentity;
 };
 
 interface StampingAreaProps {
   className?: string;
+  selectedIdentity?: UserIdentity | null;
 }
 
-export default function StampingArea({ className = "" }: StampingAreaProps) {
+export default function StampingArea({ className = "", selectedIdentity = null }: StampingAreaProps) {
   const [stamps, setStamps] = useState<Stamp[]>([]);
   const [userId, setUserId] = useState("");
   const [userStampCount, setUserStampCount] = useState(10);
   const [selectedStamp, setSelectedStamp] = useState<StampType | null>(null);
+  const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
     const id = localStorage.getItem("userId") || crypto.randomUUID();
     localStorage.setItem("userId", id);
     setUserId(id);
+
+    // Update timestamp
+    const updateTime = () => {
+      const now = new Date();
+      const month = now.getMonth() + 1;
+      const day = now.getDate();
+      const year = now.getFullYear();
+      const timeString = `${month.toString().padStart(2, '0')}.${day.toString().padStart(2, '0')}.${year}`;
+      setCurrentTime(timeString);
+    };
+
+    updateTime();
+    const timeInterval = setInterval(updateTime, 86400000); // Update once per day
 
     // Function to fetch stamps
     const fetchStamps = async () => {
@@ -51,8 +82,27 @@ export default function StampingArea({ className = "" }: StampingAreaProps) {
     // Set up polling to fetch new stamps every 2 seconds
     const interval = setInterval(fetchStamps, 2000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearInterval(timeInterval);
+    };
   }, []);
+
+  const isAM = () => {
+    const now = new Date();
+    return now.getHours() < 12;
+  };
+
+  const getStampTitle = (stamp: Stamp) => {
+    let title = stamp.userIdentity ? stamp.userIdentity : (stamp.user === userId ? "" : "Other user's stamp");
+    
+    // Add timestamp for ALL stamps
+    title += `\n${currentTime}`;
+    
+    return title;
+  };
+
+  const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
 
   const handlePlaceStamp = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (!selectedStamp || userStampCount <= 0) {
@@ -68,8 +118,12 @@ export default function StampingArea({ className = "" }: StampingAreaProps) {
     
     // Get the click coordinates relative to the stamping area
     const rect = stampArea.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    let x = ((e.clientX - rect.left) / rect.width) * 100;
+    let y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    // Clamp the coordinates so the stamp is always fully visible
+    x = clamp(x, 3, 97);
+    y = clamp(y, 3, 97);
 
     // Check if the click is within the stamping area bounds
     if (x < 0 || x > 100 || y < 0 || y > 100) {
@@ -86,6 +140,7 @@ export default function StampingArea({ className = "" }: StampingAreaProps) {
       y: `${y}%`,
       rotation,
       user: userId,
+      userIdentity: selectedIdentity || undefined,
     };
 
     try {
@@ -204,24 +259,69 @@ export default function StampingArea({ className = "" }: StampingAreaProps) {
         }}
       >
         {stamps.map((stamp) => (
-          <div
-            key={stamp.id}
-            style={{
-              position: "absolute",
-              left: stamp.x,
-              top: stamp.y,
-              transform: `translate(-50%, -50%) rotate(${stamp.rotation}deg)`,
-              cursor: "pointer",
-              zIndex: 31,
-              filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))",
-              transition: "transform 0.2s ease-out",
-              pointerEvents: "auto"
-            }}
-            className="hover:scale-110"
-            onClick={(e) => e.stopPropagation()}
-            title={stamp.user === userId ? "Your stamp" : "Other user's stamp"}
-          >
-            {stampIcons[stamp.type]}
+          <div key={stamp.id}>
+            {/* Rotated stamp */}
+            <div
+              style={{
+                position: "absolute",
+                left: stamp.x,
+                top: stamp.y,
+                transform: `translate(-50%, -50%) rotate(${stamp.rotation}deg)`,
+                zIndex: 31,
+                filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))",
+                transition: "transform 0.05s ease-out",
+                pointerEvents: "auto"
+              }}
+              className=""
+              onClick={(e) => e.stopPropagation()}
+            >
+              {stampIcons[stamp.type]}
+            </div>
+            {/* Non-rotated label */}
+            <div
+              style={{
+                position: "absolute",
+                left: stamp.x,
+                top: `calc(${stamp.y} + 40px)`,
+                transform: "translate(-50%, -50%)",
+                zIndex: 31,
+                pointerEvents: "none"
+              }}
+            >
+              <div
+                className="px-1 pb-0.5 rounded text-white text-xs font-digi shadow-lg"
+                style={{
+                  backgroundColor: "#0d0d0d",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  fontFamily: "'Pixelify Sans', sans-serif",
+                  whiteSpace: "nowrap",
+                  opacity: 0.5,
+                  paddingTop: "2px"
+                }}
+              >
+                <div className="flex flex-col items-center space-y-1">
+                  <div className="flex items-center space-x-1">
+                    {stamp.userIdentity ? (
+                      <img 
+                        src={getIconForIdentity(stamp.userIdentity)}
+                        alt={stamp.userIdentity}
+                        className="w-4 h-4"
+                      />
+                    ) : (
+                      <span>{stamp.user === userId ? "" : "Other user's stamp"}</span>
+                    )}
+                    <img 
+                      src={isAM() ? "/sun.png" : "/moon.png"} 
+                      alt={isAM() ? "Sun" : "Moon"} 
+                      className="w-4 h-4" 
+                    />
+                  </div>
+                  <span className="text-white/60 font-digi text-xs" style={{ fontFamily: "'Pixelify Sans', sans-serif", fontSize: '8px' }}>
+                    {currentTime}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         ))}
       </div>
