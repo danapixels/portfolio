@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./index.css";
 import { motion } from "framer-motion";
@@ -8,6 +8,8 @@ import About from "./About";
 import Project from "./Project";
 import StampingArea from "./components/StampingArea";
 import NavLinks from "./components/NavLinks";
+import IdentityChips from "./components/IdentityChips";
+import type { UserIdentity } from "./components/types";
 
 // Add keyframes for the drop-in animation
 const styles = `
@@ -70,10 +72,28 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isWorkHours, setIsWorkHours] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [selectedIdentity, setSelectedIdentity] = useState<UserIdentity | null>(null);
   const [hasAnimatedTexts, setHasAnimatedTexts] = useState<{ dark: boolean; light: boolean }>({ dark: false, light: false });
 
-  const darkModeText = "I'm Dana Espine (: A Senior Product Designer at IBM iX. My niche is engineering, data, AI, and advocating for designers.";
-  const lightModeText = "UI/UX open source advocate, afker, owner of 2 cats, pixel art lover, non-verbal interaction enthusiast, and indie game supporter.";
+  // Load saved identity from localStorage
+  useEffect(() => {
+    const savedIdentity = localStorage.getItem("userIdentity") as UserIdentity | null;
+    if (savedIdentity) {
+      setSelectedIdentity(savedIdentity);
+    }
+  }, []);
+
+  const handleIdentitySelect = (identity: UserIdentity | null) => {
+    setSelectedIdentity(identity);
+    if (identity) {
+      localStorage.setItem("userIdentity", identity);
+    } else {
+      localStorage.removeItem("userIdentity");
+    }
+  };
+
+  const darkModeText = "I'm Dana Espine (: A Senior Product Designer at IBM iX. My UX niche is engineering, data, AI, and advocating for designers.";
+  const lightModeText = "UI/UX open-source advocate, afker, owner of 2 cats, pixel art lover, non-verbal interaction enthusiast, and indie game supporter.";
 
   const currentKey = isDarkMode ? 'dark' : 'light';
   const currentText = isDarkMode ? darkModeText : lightModeText;
@@ -140,7 +160,7 @@ export default function App() {
               }}
             >
               {/* Add StampingArea component */}
-              <StampingArea />
+              <StampingArea selectedIdentity={selectedIdentity} />
 
               {/* Header */}
               <header className="w-full z-50 pointer-events-none">
@@ -161,30 +181,30 @@ export default function App() {
               </header>
 
               {/* Main content container */}
-              <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-4 items-center justify-center z-10 px-4 min-h-[calc(100vh-200px)] relative">
+              <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-4 items-center justify-center z-10 px-4 min-h-[calc(100vh-200px)] relative pb-32 pointer-events-none">
                 {/* Content containers */}
                 <div
-                  className="bg-[#0d0d0d] rounded-2xl shadow-2xl flex-1 flex flex-col items-center w-full lg:w-[400px] animate-drop-in relative"
+                  className="bg-[#0d0d0d] rounded-2xl shadow-2xl flex-1 flex flex-col items-center w-full lg:w-[400px] animate-drop-in relative pointer-events-auto"
                   style={{ backdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.05)" }}
                 >
-                  <div className="w-full flex flex-col items-center">
+                  <div className="w-full flex flex-col items-center pointer-events-auto">
                     <img 
                       src="/border.png" 
                       alt="Top border" 
-                      className="w-auto h-auto mb-8 mt-8"
+                      className="w-auto h-auto mb-6 mt-6 pointer-events-none"
                     />
-                    <div className="w-full px-6 sm:px-10">
-                      <section className="w-full flex flex-col items-center space-y-6">
-                        <div className="text-center space-y-6">
-                          <div className="flex flex-col space-y-4 mb-6">
+                    <div className="w-full px-2 sm:px-4 pointer-events-auto">
+                      <section className="w-full flex flex-col items-center space-y-6 pointer-events-auto">
+                        <div className="text-center space-y-6 pointer-events-auto">
+                          <div className="flex flex-col space-y-4 mb-6 pointer-events-auto">
                             <motion.div
-                              className="text-xl font-light"
+                              className="text-xl font-light pointer-events-auto"
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               transition={{ duration: 0.5, delay: 0.4 }}
                               style={{ fontFamily: "'Pixelify Sans', sans-serif" }}
                             >
-                              <div className="font-digi">
+                              <div className="font-digi pointer-events-auto">
                                 <TypewriterText 
                                   text={currentText} 
                                   onComplete={handleTextAnimationComplete}
@@ -196,7 +216,7 @@ export default function App() {
                               initial={{ opacity: 0, x: -20 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ duration: 0.5, delay: 0.2 }}
-                              className="flex justify-center"
+                              className="flex justify-center pointer-events-auto"
                             >
                               <ToggleSwitch
                                 isOn={isDarkMode}
@@ -205,14 +225,22 @@ export default function App() {
                             </motion.div>
                           </div>
                           <motion.div
-                            className="bg-[#111111] p-6 rounded-lg border border-white/5 text-center"
+                            className="bg-[#111111] p-3 rounded-lg border border-white/5 text-center pointer-events-auto"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.6 }}
                           >
-                            <p className="text-white text-sm leading-relaxed">
-                              I created an interactive stamp board for everyone visitng my portfolio. Feel free to stamp wherever you want! But you only get 10 stamps. The trash can helps you clear all your stamps if you want.
+                            <div className="flex items-center justify-center space-x-2 p-0.5 mb-2 pointer-events-auto">
+                              <img src="/stamp.png" alt="Stamp" className="w-8 h-8 pointer-events-none" />
+                              <span className="text-white text-sm font-digi pointer-events-auto">interactive stampfolio</span>
+                            </div>
+                            <p className="text-white text-sm leading-relaxed pointer-events-auto">
+                              My stampfolio is a way for those who view my portfolio to feel connected with others. Identify your role or not!
                             </p>
+                            <IdentityChips 
+                              selectedIdentity={selectedIdentity}
+                              onIdentitySelect={handleIdentitySelect}
+                            />
                           </motion.div>
                         </div>
                       </section>
@@ -220,32 +248,32 @@ export default function App() {
                     <img 
                       src="/border.png" 
                       alt="Bottom border" 
-                      className="w-auto h-auto mt-8 mb-8"
+                      className="w-auto h-auto mt-6 mb-6 pointer-events-none"
                       style={{ transform: 'rotate(180deg)' }}
                     />
                   </div>
                 </div>
 
                 {/* Projects Section */}
-                <div className="w-full lg:w-[400px] space-y-4 animate-drop-in relative z-10">
-                  <div className="bg-[#0d0d0d] rounded-2xl shadow-2xl p-6 backdrop-blur-md border border-white/5">
-                    <div className="space-y-4">
+                <div className="w-full lg:w-[400px] space-y-4 animate-drop-in relative z-10 pointer-events-auto">
+                  <div className="bg-[#0d0d0d] rounded-2xl shadow-2xl p-6 backdrop-blur-md border border-white/5 pointer-events-auto">
+                    <div className="space-y-4 pointer-events-auto">
                       {projects.map((project, index) => (
                         project.link.startsWith('/') ? (
                           <Link 
                             key={index}
                             to={project.link}
-                            className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left"
+                            className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left pointer-events-auto"
                           >
-                            <div className="flex gap-4 items-center">
+                            <div className="flex gap-4 items-center pointer-events-auto">
                               <img 
                                 src={project.image}
                                 alt={project.title}
-                                className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+                                className="w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
-                              <div className="flex-1 text-left">
-                                <h3 className="text-base mb-2 text-white font-roboto" style={{ fontWeight: 400, fontFamily: 'Roboto, sans-serif' }}>{project.title}</h3>
-                                <p className="text-white/80 text-left text-sm">{project.description}</p>
+                              <div className="flex-1 text-left pointer-events-auto">
+                                <h3 className="text-base mb-2 text-white font-roboto pointer-events-auto" style={{ fontWeight: 400, fontFamily: 'Roboto, sans-serif' }}>{project.title}</h3>
+                                <p className="text-white/80 text-left text-sm pointer-events-auto">{project.description}</p>
                               </div>
                             </div>
                           </Link>
@@ -253,17 +281,17 @@ export default function App() {
                           <a 
                             key={index}
                             href={project.link}
-                            className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left"
+                            className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left pointer-events-auto"
                           >
-                            <div className="flex gap-4 items-center">
+                            <div className="flex gap-4 items-center pointer-events-auto">
                               <img 
                                 src={project.image}
                                 alt={project.title}
-                                className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+                                className="w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
-                              <div className="flex-1 text-left">
-                                <h3 className="text-base mb-2 text-white font-roboto" style={{ fontWeight: 400, fontFamily: 'Roboto, sans-serif' }}>{project.title}</h3>
-                                <p className="text-white/80 text-left text-sm">{project.description}</p>
+                              <div className="flex-1 text-left pointer-events-auto">
+                                <h3 className="text-base mb-2 text-white font-roboto pointer-events-auto" style={{ fontWeight: 400, fontFamily: 'Roboto, sans-serif' }}>{project.title}</h3>
+                                <p className="text-white/80 text-left text-sm pointer-events-auto">{project.description}</p>
                               </div>
                             </div>
                           </a>

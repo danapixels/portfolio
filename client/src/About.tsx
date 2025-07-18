@@ -90,7 +90,7 @@ export default function About() {
     skills: [
       "Indie games (Binding of Isaac)",
       "Making stuff",
-      "Reading (Sci-fi and Fantasy)",
+      "Reading (Fantasy)",
       "Writing",
       "Watching movies (Truman Show)",
       "Teaching"
@@ -137,7 +137,7 @@ export default function About() {
         </header>
 
         {/* Main content container */}
-        <div className="max-w-screen-xl mx-auto flex items-center justify-center z-20 px-4 min-h-[calc(100vh-200px)]">
+        <div className="max-w-screen-xl mx-auto flex items-center justify-center z-20 px-4 min-h-[calc(100vh-200px)] pb-32">
           <div className="flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-4 w-full max-w-6xl">
             <div
               className="bg-[#0d0d0d] rounded-2xl shadow-2xl flex flex-col items-center w-full max-w-xl animate-drop-in relative"
@@ -147,10 +147,10 @@ export default function About() {
                 <img 
                   src="/border.png" 
                   alt="Top border" 
-                  className="w-auto h-auto mb-8 mt-8"
+                  className="w-auto h-auto mb-4 mt-4"
                 />
-                <div className="w-full px-6 sm:px-10">
-                  <section className="w-full flex flex-col items-center space-y-6">
+                <div className="w-full px-3 sm:px-6">
+                  <section className="w-full flex flex-col items-center space-y-3">
                     <div className="text-center space-y-6">
                       <div className="flex flex-col space-y-4 mb-6">
                         <motion.div
@@ -200,7 +200,7 @@ export default function About() {
                 <img 
                   src="/border.png" 
                   alt="Bottom border" 
-                  className="w-auto h-auto mt-8 mb-8"
+                  className="w-auto h-auto mt-4 mb-4"
                   style={{ transform: 'rotate(180deg)' }}
                 />
               </div>
@@ -209,7 +209,10 @@ export default function About() {
             {/* Side containers positioned outside main content */}
             <div className="space-y-4 flex-shrink-0 w-full lg:w-auto">
               <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 w-full lg:w-50 animate-drop-in">
-                <h3 className="text-lg font-semibold mb-2 font-digi text-left">{isDarkMode ? "skills" : "hobbies"}</h3>
+                <div className="flex items-center mb-2">
+                  <img src="/skills.png" alt="Skills" className="w-6 h-6 mr-2" />
+                  <h3 className="text-lg font-semibold font-digi text-left">{isDarkMode ? "skills" : "hobbies"}</h3>
+                </div>
                 <ul className="text-white/80 space-y-2 flex flex-col min-h-[120px]">
                   {currentContent.skills.map((skill, index) => (
                     <li key={index} className="text-sm flex items-start" style={{ fontFamily: 'Roboto, sans-serif' }}>
@@ -220,7 +223,10 @@ export default function About() {
                 </ul>
               </div>
               <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 flex flex-col min-h-[120px] w-full lg:w-50 animate-drop-in">
-                <h3 className="text-lg font-semibold mb-2 font-digi text-left">contact</h3>
+                <div className="flex items-center mb-2">
+                  <img src="/emailicon.png" alt="Contact" className="w-6 h-6 mr-2" />
+                  <h3 className="text-lg font-semibold font-digi text-left">contact</h3>
+                </div>
                 <div className="space-y-3 flex-1 flex flex-col justify-center">
                   <a 
                     href="https://www.linkedin.com/in/danaespine/" 
