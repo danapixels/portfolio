@@ -6,7 +6,7 @@ interface IdentityChipsProps {
 }
 
 const identityOptions: UserIdentity[] = [
-  "PM", "Engineer", "Manager", "Leadership", "Recruiter", "Friend", "Cat", "Designer", "Other"
+  "PM", "Engineer", "Leadership", "Recruiter", "Cat", "Designer"
 ];
 
 const getIconForIdentity = (identity: UserIdentity) => {
@@ -32,10 +32,10 @@ export default function IdentityChips({ selectedIdentity, onIdentitySelect }: Id
           <button
             key={identity}
             onClick={() => onIdentitySelect(selectedIdentity === identity ? null : identity)}
-            className={`px-1 py-0 rounded-full font-medium transition-all duration-200 flex items-center space-x-1 ${
+            className={`px-1.5 py-0 rounded-full font-medium transition-all duration-200 flex items-center space-x-1 ${
               selectedIdentity === identity
                 ? "bg-[#0d0d0d] text-white border border-white"
-                : "bg-[#0d0d0d] text-white hover:bg-[#1a1a1a] border border-white/10"
+                : "bg-[#0d0d0d] text-white hover:bg-[#1a1a1a]"
             }`}
             style={{ fontFamily: 'digi, monospace', fontSize: '16px' }}
           >

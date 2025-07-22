@@ -3,6 +3,7 @@ import Dock from "./Dock";
 import type { DockItemData } from "./Dock";
 import { stampIcons } from "./stampIcons";
 import type { StampType, UserIdentity } from "./types";
+import IdentityChips from "./IdentityChips";
 
 const getIconForIdentity = (identity: UserIdentity) => {
   switch (identity) {
@@ -34,12 +35,14 @@ interface StampingAreaProps {
   selectedIdentity?: UserIdentity | null;
 }
 
-export default function StampingArea({ className = "", selectedIdentity = null }: StampingAreaProps) {
+export default function StampingArea({ className = "", selectedIdentity: _selectedIdentity = null }: StampingAreaProps) {
   const [stamps, setStamps] = useState<Stamp[]>([]);
   const [userId, setUserId] = useState("");
-  const [userStampCount, setUserStampCount] = useState(10);
+  const [userStampCount, setUserStampCount] = useState(100);
   const [selectedStamp, setSelectedStamp] = useState<StampType | null>(null);
   const [currentTime, setCurrentTime] = useState("");
+  const [showChips, setShowChips] = useState(false);
+  const [selectedIdentity, setSelectedIdentity] = useState<UserIdentity | null>(_selectedIdentity);
 
   useEffect(() => {
     const id = localStorage.getItem("userId") || crypto.randomUUID();
@@ -70,7 +73,7 @@ export default function StampingArea({ className = "", selectedIdentity = null }
         setStamps(data);
         // Only count stamps for the current user
         const userCount = data.filter((s) => s.user === id).length;
-        setUserStampCount(10 - userCount);
+        setUserStampCount(100 - userCount);
       } catch (error) {
         console.error('Error fetching stamps:', error);
       }
@@ -165,7 +168,7 @@ export default function StampingArea({ className = "", selectedIdentity = null }
       // If we get a message about the global limit being reached, refresh stamps
       if (data.message === 'Stamp limit reached, all stamps cleared') {
         setStamps([]);
-        setUserStampCount(10);
+        setUserStampCount(100);
         return;
       }
 
@@ -175,7 +178,7 @@ export default function StampingArea({ className = "", selectedIdentity = null }
         const updatedStamps: Stamp[] = await stampsResponse.json();
         setStamps(updatedStamps);
         const userCount = updatedStamps.filter((s) => s.user === userId).length;
-        setUserStampCount(10 - userCount);
+        setUserStampCount(100 - userCount);
       }
     } catch (error) {
       console.error("Failed to save stamp:", error);
@@ -210,7 +213,7 @@ export default function StampingArea({ className = "", selectedIdentity = null }
       // Update local state to remove user's stamps
       const otherUsersStamps = stamps.filter(stamp => stamp.user !== userId);
       setStamps(otherUsersStamps);
-      setUserStampCount(10);
+      setUserStampCount(100);
     } catch (error) {
       console.error("Failed to clear stamps:", error);
       alert('Failed to clear stamps. Please try again.');
@@ -218,6 +221,14 @@ export default function StampingArea({ className = "", selectedIdentity = null }
   }, [stamps, userId]);
 
   const dockItems = [
+    // Pencil icon for role chips
+    {
+      icon: <img src="/skills.png" alt="Edit role" className="w-6 h-6" style={{ width: '24px', height: '24px' }} />,
+      label: "Choose role",
+      onClick: () => setShowChips((prev) => !prev),
+      type: "pencil",
+      style: { padding: 0, borderRadius: 0 }
+    },
     ...(Object.keys(stampIcons) as StampType[]).map((type) => ({
       icon: (
         <div style={{ borderRadius: "50%", padding: 4 }} title={`${type} Stamp`}>
@@ -253,9 +264,9 @@ export default function StampingArea({ className = "", selectedIdentity = null }
         style={{ 
           cursor: selectedStamp ? "crosshair" : "default",
           pointerEvents: selectedStamp ? "auto" : "none",
-          backgroundColor: "#111111",
-          backgroundImage: "linear-gradient(#1f1f1f 1px, transparent 1px), linear-gradient(90deg, #1f1f1f 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
+          // backgroundColor: "#111111",
+          // backgroundImage: "linear-gradient(#1f1f1f 1px, transparent 1px), linear-gradient(90deg, #1f1f1f 1px, transparent 1px)",
+          // backgroundSize: "32px 32px",
         }}
       >
         {stamps.map((stamp) => (
@@ -326,6 +337,21 @@ export default function StampingArea({ className = "", selectedIdentity = null }
         ))}
       </div>
 
+      {/* Chips above the dock */}
+      {showChips && (
+        <>
+          {/* Overlay to close chips when clicking outside */}
+          <div
+            className="fixed inset-0 z-40"
+            onClick={() => setShowChips(false)}
+            style={{ background: 'transparent' }}
+          />
+          <div className="fixed left-1/2 bottom-24 transform -translate-x-1/2 z-50">
+            <IdentityChips selectedIdentity={selectedIdentity} onIdentitySelect={(identity) => { setSelectedIdentity(identity); setShowChips(false); }} />
+          </div>
+        </>
+      )}
+
       {/* Dock */}
       <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
         <div className="pointer-events-auto">
@@ -339,9 +365,7 @@ export default function StampingArea({ className = "", selectedIdentity = null }
         </div>
       </div>
 
-      <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 px-6 py-2 rounded-full text-white font-semibold pointer-events-none z-40" style={{ fontFamily: "'Pixelify Sans', sans-serif", fontSize: '16px', backgroundColor: 'rgba(17, 17, 17, 0.5)' }}>
-        {userStampCount} stamps left
-      </div>
+      {/* Removed x stamps left display */}
     </>
   );
 } 

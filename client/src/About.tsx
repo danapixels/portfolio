@@ -66,15 +66,13 @@ export default function About() {
 
   const darkModeContent = {
     title: "i am a senior product designer.",
-    description1: "I am a product designer based in Queens, New York. I have the privilege to work alongside the brightest minds at IBM and with the various designers within my client teams. Working with various industries has pushed my growth exponentially through product team collaboration and differing ways of working. I've learned to become adaptable and gladly meet the moment for each of my teams.",
-    description2: "I specialize in engineering tools, AI, and data analysis tools. These 3 building blocks that have built me up as a designer, also directly correlate to my values of bridging the gap between UX and engineering, pushing the boundaries, and data transparency.",
+    description1: "I am a Senior Product Designer of 6+ years at IBM currently working with data supporting Google. I have worked with various industries and clients (Shell, Finance of America, OneAmerica, etc) and crafted my expertise in data, engineering, and AI tools. These clients is where I help lead 0-1 initiatives, collaborative cross-functionally, design and deliver product improvements and features.",
     skills: [
-      "High fidelity prototyping",
-      "UX thought leadership", 
-      "Wireframing",
-      "Design thinking facilitation",
-      "Design mentorship",
-      "Creating concepts from ambiguous ideas"
+      "pushing boundaries",
+      "team-focused", 
+      "always learning",
+      "user-driven",
+      "understanding complex systems",
     ],
     contact: [
       "Email: your.email@example.com",
@@ -85,15 +83,13 @@ export default function About() {
 
   const lightModeContent = {
     title: "i am a chronically online creator.",
-    description1: "My passion is execution of my ideas and seeing them come to life. I love creating experiences inside and outside of work. I am a big advocate for UX/UI to understand the engineering lifecycle and the importance of open-source AND free software. Bringing UX/UI to open-source means faster iterations, different perspectives, and bringing light to voices who otherwise might not have been heard.",
-    description2: "To push the boundaries of our potential as designers, it's important to understand the process of engineering but also how we can best communicate our thoughts and ideas in a way everyone can understand. The best way to provide the best UX for our users is if everyone can speak the same \"working language,\" right?",
+    description1: "I am a creator. I love creating experiences after hours. I am a big advocate for UX/UI to understand the engineering lifecycle and the importance of collaboration through open-source and free software.",
     skills: [
-      "Indie games (Binding of Isaac)",
-      "Making stuff",
-      "Reading (Fantasy)",
-      "Writing",
-      "Watching movies (Truman Show)",
-      "Teaching"
+      "indie games",
+      "making anything",
+      "reading",
+      "blogging",
+      "talking to my cats",
     ],
     contact: [
       "Email: your.email@example.com",
@@ -108,10 +104,10 @@ export default function About() {
     <>
       <style>{styles}</style>
       <div 
-        className="min-h-screen text-white flex flex-col items-center px-4 relative overflow-hidden"
+        className="min-h-screen text-white flex flex-col items-center px-4 relative overflow-hidden font-sans"
         style={{
-          backgroundColor: "#111111",
-          backgroundImage: "linear-gradient(#1f1f1f 1px, transparent 1px), linear-gradient(90deg, #1f1f1f 1px, transparent 1px)",
+          backgroundColor: "#0a0a0a",
+          backgroundImage: "linear-gradient(#0f0f0f 1px, transparent 1px), linear-gradient(90deg, #0f0f0f 1px, transparent 1px)",
           backgroundSize: "32px 32px",
         }}
       >
@@ -174,12 +170,11 @@ export default function About() {
                         </motion.div>
                       </div>
                       <motion.div
-                        className="bg-[#111111] p-6 rounded-lg border border-white/5 text-center space-y-6"
+                        className="p-6 rounded-lg text-center space-y-6"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.6 }}
                       >
-                        <h2 className="text-2xl font-semibold font-digi">about me</h2>
                         <div className="flex justify-center mb-6">
                           <img 
                             src={isDarkMode ? "/mainport.png" : "/portrait.png"}
@@ -187,11 +182,8 @@ export default function About() {
                             className="rounded-lg"
                           />
                         </div>
-                        <p className="text-white text-sm leading-relaxed">
+                        <p className="text-white text-sm leading-loose font-sans">
                           {currentContent.description1}
-                        </p>
-                        <p className="text-white text-sm leading-relaxed">
-                          {currentContent.description2}
                         </p>
                       </motion.div>
                     </div>
@@ -208,34 +200,34 @@ export default function About() {
             
             {/* Side containers positioned outside main content */}
             <div className="space-y-4 flex-shrink-0 w-full lg:w-auto">
-              <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 w-full lg:w-50 animate-drop-in">
+              <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 w-full lg:w-50 animate-drop-in font-sans">
                 <div className="flex items-center mb-2">
                   <img src="/skills.png" alt="Skills" className="w-6 h-6 mr-2" />
-                  <h3 className="text-lg font-semibold font-digi text-left">{isDarkMode ? "skills" : "hobbies"}</h3>
+                  <h3 className="text-lg font-semibold font-digi text-left">{isDarkMode ? "design values" : "hobbies"}</h3>
                 </div>
-                <ul className="text-white/80 space-y-2 flex flex-col min-h-[120px]">
+                <ul className="text-white/80 space-y-2 flex flex-col min-h-[120px] font-sans">
                   {currentContent.skills.map((skill, index) => (
-                    <li key={index} className="text-sm flex items-start" style={{ fontFamily: 'Roboto, sans-serif' }}>
+                    <li key={index} className="text-sm flex items-start">
                       <img src="/sparkle.png" alt="sparkle" className="mr-2 flex-shrink-0 mt-0.5" />
                       <span className="text-left">{skill}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 flex flex-col min-h-[120px] w-full lg:w-50 animate-drop-in">
+              <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 flex flex-col min-h-[120px] w-full lg:w-50 animate-drop-in font-sans">
                 <div className="flex items-center mb-2">
                   <img src="/emailicon.png" alt="Contact" className="w-6 h-6 mr-2" />
                   <h3 className="text-lg font-semibold font-digi text-left">contact</h3>
                 </div>
-                <div className="space-y-3 flex-1 flex flex-col justify-center">
+                <div className="space-y-3 flex-1 flex flex-col justify-center font-sans">
                   <a 
-                    href="https://www.linkedin.com/in/danaespine/" 
+                    href="https://www.linkedin.com/in/dananyc/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
                   >
                     <img src="/linkedin.png" alt="LinkedIn" className="w-8 h-8" />
-                    <span className="text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>/danaespine</span>
+                    <span className="text-sm">/danaespine</span>
                   </a>
                   <a 
                     href="https://github.com/danapixels" 
@@ -244,14 +236,14 @@ export default function About() {
                     className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
                   >
                     <img src="/github.png" alt="GitHub" className="w-8 h-8" />
-                    <span className="text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>/danapixels</span>
+                    <span className="text-sm">/danapixels</span>
                   </a>
                   <a 
                     href="mailto:hi@dana.nyc"
                     className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
                   >
                     <img src="/email.png" alt="Email" className="w-8 h-8" />
-                    <span className="text-sm" style={{ fontFamily: 'Roboto, sans-serif' }}>hi@dana.nyc</span>
+                    <span className="text-sm">hi@dana.nyc</span>
                   </a>
                 </div>
               </div>

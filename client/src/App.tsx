@@ -154,8 +154,8 @@ export default function App() {
             <div 
               className="min-h-screen text-white flex flex-col items-center px-4 relative overflow-hidden"
               style={{
-                backgroundColor: "#111111",
-                backgroundImage: "linear-gradient(#1f1f1f 1px, transparent 1px), linear-gradient(90deg, #1f1f1f 1px, transparent 1px)",
+                backgroundColor: "#0a0a0a",
+                backgroundImage: "linear-gradient(#0f0f0f 1px, transparent 1px), linear-gradient(90deg, #0f0f0f 1px, transparent 1px)",
                 backgroundSize: "32px 32px",
               }}
             >
@@ -224,24 +224,6 @@ export default function App() {
                               />
                             </motion.div>
                           </div>
-                          <motion.div
-                            className="bg-[#111111] p-3 rounded-lg border border-white/5 text-center pointer-events-auto"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.6 }}
-                          >
-                            <div className="flex items-center justify-center space-x-2 p-0.5 mb-2 pointer-events-auto">
-                              <img src="/stamp.png" alt="Stamp" className="w-8 h-8 pointer-events-none" />
-                              <span className="text-white text-sm font-digi pointer-events-auto">interactive stampfolio</span>
-                            </div>
-                            <p className="text-white text-sm leading-relaxed pointer-events-auto">
-                              My stampfolio is a way for those who view my portfolio to feel connected with others. Identify your role or not!
-                            </p>
-                            <IdentityChips 
-                              selectedIdentity={selectedIdentity}
-                              onIdentitySelect={handleIdentitySelect}
-                            />
-                          </motion.div>
                         </div>
                       </section>
                     </div>
@@ -263,7 +245,7 @@ export default function App() {
                           <Link 
                             key={index}
                             to={project.link}
-                            className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left pointer-events-auto"
+                            className="block p-4 rounded-xl hover:bg-[#2a2a2a] transition-colors text-left pointer-events-auto"
                           >
                             <div className="flex gap-4 items-center pointer-events-auto">
                               <img 
@@ -272,7 +254,7 @@ export default function App() {
                                 className="w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
                               <div className="flex-1 text-left pointer-events-auto">
-                                <h3 className="text-base mb-2 text-white font-roboto pointer-events-auto" style={{ fontWeight: 400, fontFamily: 'Roboto, sans-serif' }}>{project.title}</h3>
+                                <h3 className="text-base mb-2 text-white font-sans pointer-events-auto" style={{ fontWeight: 400 }}>{project.title}</h3>
                                 <p className="text-white/80 text-left text-sm pointer-events-auto">{project.description}</p>
                               </div>
                             </div>
@@ -281,7 +263,7 @@ export default function App() {
                           <a 
                             key={index}
                             href={project.link}
-                            className="block p-4 bg-[#111111] rounded-xl hover:bg-[#2a2a2a] transition-colors border border-white/5 text-left pointer-events-auto"
+                            className="block p-4 rounded-xl hover:bg-[#2a2a2a] transition-colors text-left pointer-events-auto"
                           >
                             <div className="flex gap-4 items-center pointer-events-auto">
                               <img 
@@ -290,7 +272,7 @@ export default function App() {
                                 className="w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
                               <div className="flex-1 text-left pointer-events-auto">
-                                <h3 className="text-base mb-2 text-white font-roboto pointer-events-auto" style={{ fontWeight: 400, fontFamily: 'Roboto, sans-serif' }}>{project.title}</h3>
+                                <h3 className="text-base mb-2 text-white font-sans pointer-events-auto" style={{ fontWeight: 400 }}>{project.title}</h3>
                                 <p className="text-white/80 text-left text-sm pointer-events-auto">{project.description}</p>
                               </div>
                             </div>

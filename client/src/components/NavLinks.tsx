@@ -23,7 +23,7 @@ const NavLinks = () => (
         />
       </a>
       <a
-        href="https://www.linkedin.com/in/danaespine/"
+                        href="https://www.linkedin.com/in/dananyc/"
         target="_blank"
         rel="noopener noreferrer"
         className="block hover:opacity-80 transition-opacity"
