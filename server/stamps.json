@@ -1,92 +1,92 @@
 [
   {
-    "id": "1366ce8e-77df-45c9-8b66-69bc83e08f6b",
+    "id": "74ddc9b5-33d5-4d80-bada-fa2c213ab16f",
     "type": "diamond",
-    "x": "95.00693481276005%",
-    "y": "41.05603448275862%",
-    "rotation": -12.713195995042462,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Friend"
-  },
-  {
-    "id": "a127bffd-8b4a-4727-991d-74896db1f0a8",
-    "type": "diamond",
-    "x": "90.77669902912622%",
-    "y": "32.974137931034484%",
-    "rotation": -3.32067584862817,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Friend"
-  },
-  {
-    "id": "616f31e3-30af-43a7-bd58-1a59d575b074",
-    "type": "diamond",
-    "x": "81.83079056865465%",
-    "y": "37.28448275862069%",
-    "rotation": 1.7323332922672563,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Friend"
-  },
-  {
-    "id": "2aca35b0-0fbb-4f97-be39-17c2ff4c690f",
-    "type": "bronze",
-    "x": "19.348127600554786%",
-    "y": "81.57327586206897%",
-    "rotation": -1.8816655031359648,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Cat"
-  },
-  {
-    "id": "76bf20bd-c81e-4da6-8ab6-b8a794b6bbec",
-    "type": "bronze",
-    "x": "11.234396671289876%",
-    "y": "47.8448275862069%",
-    "rotation": -3.7116400260496594,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Cat"
-  },
-  {
-    "id": "232ab144-2518-4c43-981a-0f3d13847a48",
-    "type": "bronze",
-    "x": "10.748959778085991%",
-    "y": "30.495689655172413%",
-    "rotation": -8.001132020426603,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Cat"
-  },
-  {
-    "id": "af6e529a-0b91-4f26-bf6c-860890f9c07d",
-    "type": "gold",
-    "x": "54.16088765603328%",
-    "y": "74.35344827586206%",
-    "rotation": -10.161610038424316,
+    "x": "51.258703802892335%",
+    "y": "71.0576923076923%",
+    "rotation": -7.701080164412466,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
     "userIdentity": "Designer"
   },
   {
-    "id": "5c9b4e35-5491-4ad9-a052-841f914258a3",
-    "type": "gold",
-    "x": "50.20804438280167%",
-    "y": "65.40948275862068%",
-    "rotation": -8.242822633935775,
+    "id": "6065805c-1736-475f-bcd6-1fbcb54e004c",
+    "type": "diamond",
+    "x": "27.04874129619711%",
+    "y": "69.8076923076923%",
+    "rotation": -3.2381687665191663,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
     "userIdentity": "Designer"
   },
   {
-    "id": "55ae5856-752a-461e-8ff9-2b6ffba1ce0e",
-    "type": "gold",
-    "x": "65.74202496532594%",
-    "y": "69.28879310344827%",
-    "rotation": 5.140208639742447,
+    "id": "0af4893d-d062-4d1c-9324-2249ae7c10ac",
+    "type": "diamond",
+    "x": "18.69309051955008%",
+    "y": "54.32692307692307%",
+    "rotation": -5.043126066786744,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
     "userIdentity": "Designer"
   },
   {
-    "id": "4913cc38-4715-4999-9ed7-a33dd055d873",
+    "id": "d60d3e6d-8e11-409e-99c4-d9036af14206",
+    "type": "diamond",
+    "x": "19.871451526513123%",
+    "y": "48.17307692307693%",
+    "rotation": 6.055064571624548,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Designer"
+  },
+  {
+    "id": "b1769255-ead5-4354-b41f-6975e03f4c13",
+    "type": "diamond",
+    "x": "65.29191215854311%",
+    "y": "81.63461538461539%",
+    "rotation": -11.437604591490848,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Designer"
+  },
+  {
+    "id": "6f782959-117a-4e17-9343-fdf9dc97ae38",
+    "type": "diamond",
+    "x": "70.32672737011248%",
+    "y": "66.53846153846153%",
+    "rotation": 4.028109661236222,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Leadership"
+  },
+  {
+    "id": "9fead6d6-6856-4327-9b96-94b680f4c36e",
+    "type": "bronze",
+    "x": "38.832351365827535%",
+    "y": "75.28846153846153%",
+    "rotation": 8.101060087509303,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Leadership"
+  },
+  {
+    "id": "7645c043-9586-4f19-82e8-806c71eb6577",
     "type": "silver",
-    "x": "31.206657420249652%",
-    "y": "83.1896551724138%",
-    "rotation": 11.121412700513183,
+    "x": "61.38189608998393%",
+    "y": "74.32692307692308%",
+    "rotation": -8.239686704184018,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Manager"
+    "userIdentity": "Recruiter"
+  },
+  {
+    "id": "350b0ce9-4364-4e75-a08c-861d657d7073",
+    "type": "silver",
+    "x": "12.212104981253349%",
+    "y": "30.480769230769234%",
+    "rotation": 12.230197680755001,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Recruiter"
+  },
+  {
+    "id": "c5452409-1cf9-49e5-aa52-a60a4f92334d",
+    "type": "gold",
+    "x": "23.942153186930906%",
+    "y": "86.92307692307692%",
+    "rotation": -6.747587115041943,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "PM"
   }
 ]

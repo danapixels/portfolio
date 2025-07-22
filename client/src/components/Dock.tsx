@@ -140,7 +140,7 @@ function DockLabel({ children, className = "", isHovered }: DockLabelProps) {
           animate={{ opacity: 1, y: -10 }}
           exit={{ opacity: 0, y: 0 }}
           transition={{ duration: 0.2 }}
-          className={`dock-label ${className}`}
+          className={`dock-label font-sans ${className}`}
           role="tooltip"
           style={{ x: "-50%" }}
         >
