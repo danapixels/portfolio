@@ -113,13 +113,13 @@ export default function App() {
     },
     {
       title: "Google Firebase",
-      description: "creating a better way for developers to monitor their apps",
+      description: "created a better ways for developers to monitor their apps",
       image: "/firebase.png",
       link: "/firebase"
     },
     {
       title: "Chevron",
-      description: "helping employees reduce and understand risk",
+      description: "helped employees reduce and understand risk",
       image: "/chevron.png",
       link: "https://github.com/yourusername/project3"
     }
