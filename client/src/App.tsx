@@ -5,11 +5,12 @@ import { motion } from "framer-motion";
 import ToggleSwitch from "./components/ToggleSwitch";
 import TypewriterText from "./components/TypewriterText";
 import About from "./About";
-import Project from "./Project";
+import CoreData from "./projects/CoreData";
 import StampingArea from "./components/StampingArea";
 import NavLinks from "./components/NavLinks";
 import IdentityChips from "./components/IdentityChips";
 import type { UserIdentity } from "./components/types";
+import Firebase from "./projects/Firebase";
 
 // Add keyframes for the drop-in animation
 const styles = `
@@ -114,7 +115,7 @@ export default function App() {
       title: "Google Firebase",
       description: "creating a better way for developers to monitor their apps",
       image: "/firebase.png",
-      link: "https://github.com/yourusername/project2"
+      link: "/firebase"
     },
     {
       title: "Chevron",
@@ -147,7 +148,8 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/about" element={<About />} />
-        <Route path="/project" element={<Project />} />
+        <Route path="/project" element={<CoreData />} />
+        <Route path="/firebase" element={<Firebase />} />
         <Route path="/" element={
           <>
             <style>{styles}</style>
