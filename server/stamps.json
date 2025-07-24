@@ -79,5 +79,41 @@
     "rotation": 1.2996809308922366,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
     "userIdentity": "Leadership"
+  },
+  {
+    "id": "a4796a7d-c5d8-4e9f-9d57-a315c3608301",
+    "type": "gold",
+    "x": "59.605551497443386%",
+    "y": "79.53020134228188%",
+    "rotation": -7.815982909376632,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Cat"
+  },
+  {
+    "id": "35f90be7-5f35-4270-aca8-f7260a659bea",
+    "type": "silver",
+    "x": "77.86705624543463%",
+    "y": "75.72706935123043%",
+    "rotation": -0.8610023068960491,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Recruiter"
+  },
+  {
+    "id": "5e2ee74b-ec98-4acc-a4b1-4613f8ffab9c",
+    "type": "diamond",
+    "x": "20.014609203798393%",
+    "y": "85.79418344519016%",
+    "rotation": 7.380034652193235,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Recruiter"
+  },
+  {
+    "id": "28126930-7395-4864-a15a-71923e5d289b",
+    "type": "bronze",
+    "x": "8.984660336011688%",
+    "y": "50.671140939597315%",
+    "rotation": 4.925615773032302,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Engineer"
   }
 ]
