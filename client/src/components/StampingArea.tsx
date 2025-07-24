@@ -44,6 +44,13 @@ export default function StampingArea({ className = "", selectedIdentity: _select
   const [currentTime, setCurrentTime] = useState("");
   const [showChips, setShowChips] = useState(false);
   const [selectedIdentity, setSelectedIdentity] = useState<UserIdentity | null>(_selectedIdentity);
+  const [isDockHovered, setIsDockHovered] = useState(false);
+  const [hasPromptBeenDismissed, setHasPromptBeenDismissed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('hasPromptBeenDismissed') === 'true';
+    }
+    return false;
+  });
 
   // Update local state when prop changes
   useEffect(() => {
@@ -372,9 +379,31 @@ export default function StampingArea({ className = "", selectedIdentity: _select
         </>
       )}
 
+      {/* Role selection prompt */}
+      {!selectedIdentity && !hasPromptBeenDismissed && (
+        <div className="fixed left-1/2 bottom-16 transform -translate-x-1/2 z-60 pointer-events-auto hidden sm:flex">
+          <div className="flex items-center space-x-2 bg-[#0a0a0a] px-4 py-2 rounded-lg">
+            <img src="/down.png" alt="Down arrow" />
+            <span className="text-white text-sm font-sans" style={{ fontSize: '14px' }}>
+              contribute to my stampfolio, pick a role first!
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Dock */}
       <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
-        <div className="pointer-events-auto">
+        <div 
+          className="pointer-events-auto"
+          onMouseEnter={() => {
+            setIsDockHovered(true);
+            if (!hasPromptBeenDismissed) {
+              setHasPromptBeenDismissed(true);
+              localStorage.setItem('hasPromptBeenDismissed', 'true');
+            }
+          }}
+          onMouseLeave={() => setIsDockHovered(false)}
+        >
           <Dock 
             items={dockItems}
             selectedStamp={selectedStamp}
