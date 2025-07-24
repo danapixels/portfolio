@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ToggleSwitch from "./components/ToggleSwitch";
 import TypewriterText from "./components/TypewriterText";
 import { Link } from "react-router-dom";
 import StampingArea from "./components/StampingArea";
 import NavLinks from "./components/NavLinks";
+import type { UserIdentity } from "./components/types";
 
 // Reuse the same styles from App.tsx
 const styles = `
@@ -63,16 +64,34 @@ const styles = `
 
 export default function About() {
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [selectedIdentity, setSelectedIdentity] = useState<UserIdentity | null>(null);
+
+  // Load saved identity from localStorage
+  useEffect(() => {
+    const savedIdentity = localStorage.getItem("userIdentity") as UserIdentity | null;
+    if (savedIdentity) {
+      setSelectedIdentity(savedIdentity);
+    }
+  }, []);
+
+  const handleIdentitySelect = (identity: UserIdentity | null) => {
+    setSelectedIdentity(identity);
+    if (identity) {
+      localStorage.setItem("userIdentity", identity);
+    } else {
+      localStorage.removeItem("userIdentity");
+    }
+  };
 
   const darkModeContent = {
     title: "i am a senior product designer.",
-    description1: "I am a Senior Product Designer of 6+ years at IBM currently working with data supporting Google. I have worked with various industries and clients (Shell, Finance of America, OneAmerica, etc) and crafted my expertise in data, engineering, and AI tools. These clients is where I help lead 0-1 initiatives, collaborative cross-functionally, design and deliver product improvements and features.",
+    description1: "6 years @ IBM. Currently, designing for Googlers to improve data visibility through cross-functional collaboration, ambiguous ideas, and feature improvements.",
     skills: [
       "pushing boundaries",
       "team-focused", 
       "always learning",
       "user-driven",
-      "understanding complex systems",
+      "complex systems",
     ],
     contact: [
       "Email: your.email@example.com",
@@ -82,8 +101,8 @@ export default function About() {
   };
 
   const lightModeContent = {
-    title: "i am a chronically online creator.",
-    description1: "I am a creator. I love creating experiences after hours. I am a big advocate for UX/UI to understand the engineering lifecycle and the importance of collaboration through open-source and free software.",
+    title: "i am chronically online.",
+    description1: "29 years @ Earth. Currently, contributing to open-source projects through UX and making silly websites.",
     skills: [
       "indie games",
       "making anything",
@@ -112,7 +131,7 @@ export default function About() {
         }}
       >
         {/* Add StampingArea component */}
-        <StampingArea />
+        <StampingArea selectedIdentity={selectedIdentity} onIdentitySelect={handleIdentitySelect} />
 
         {/* Header */}
         <header className="w-full z-50 pointer-events-none">
@@ -133,56 +152,56 @@ export default function About() {
         </header>
 
         {/* Main content container */}
-        <div className="max-w-screen-xl mx-auto flex items-center justify-center z-20 px-4 min-h-[calc(100vh-200px)] pb-32">
+        <div className="max-w-screen-xl mx-auto flex items-center justify-center z-10 px-4 min-h-[calc(100vh-200px)] pb-32 pointer-events-none">
           <div className="flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-4 w-full max-w-6xl">
             <div
-              className="bg-[#0d0d0d] rounded-2xl shadow-2xl flex flex-col items-center w-full max-w-xl animate-drop-in relative"
-              style={{ backdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.05)" }}
+              className="bg-[#0a0a0a] rounded-2xl flex flex-col items-center w-full max-w-xl animate-drop-in relative pointer-events-auto"
             >
-              <div className="w-full flex flex-col items-center">
+              <div className="w-full flex flex-col items-center pointer-events-auto">
                 <img 
                   src="/border.png" 
                   alt="Top border" 
-                  className="w-auto h-auto mb-4 mt-4"
+                  className="w-auto h-auto mb-4 mt-4 pointer-events-none"
                 />
-                <div className="w-full px-3 sm:px-6">
-                  <section className="w-full flex flex-col items-center space-y-3">
-                    <div className="text-center space-y-6">
-                      <div className="flex flex-col space-y-4 mb-6">
+                <div className="w-full px-3 sm:px-6 pointer-events-auto">
+                  <section className="w-full flex flex-col items-center space-y-3 pointer-events-auto">
+                    <div className="text-center space-y-6 pointer-events-auto">
+                      <div className="flex flex-col space-y-4 mb-6 pointer-events-auto">
                         <motion.div
-                          className="text-xl font-light font-digi"
+                          className="text-xl font-light font-digi pointer-events-auto"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ duration: 0.5, delay: 0.4 }}
                         >
-                          <TypewriterText text={currentContent.title} />
+                          <div className="pointer-events-auto">{currentContent.title}</div>
                         </motion.div>
                         <motion.div
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5, delay: 0.2 }}
-                          className="flex justify-center"
+                          className="flex justify-center pointer-events-auto"
                         >
                           <ToggleSwitch
                             isOn={isDarkMode}
                             handleToggle={() => setIsDarkMode(!isDarkMode)}
+                            className="pointer-events-auto"
                           />
                         </motion.div>
                       </div>
                       <motion.div
-                        className="p-6 rounded-lg text-center space-y-6"
+                        className="p-6 rounded-lg text-center space-y-2 pointer-events-auto"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.6 }}
                       >
-                        <div className="flex justify-center mb-6">
+                        <div className="flex justify-center mb-6 pointer-events-auto">
                           <img 
                             src={isDarkMode ? "/mainport.png" : "/portrait.png"}
                             alt="Portfolio Image"
-                            className="rounded-lg"
+                            className="rounded-lg pointer-events-none"
                           />
                         </div>
-                        <p className="text-white text-sm leading-loose font-sans">
+                        <p className="text-white text-sm leading-relaxed font-sans pointer-events-auto">
                           {currentContent.description1}
                         </p>
                       </motion.div>
@@ -192,58 +211,58 @@ export default function About() {
                 <img 
                   src="/border.png" 
                   alt="Bottom border" 
-                  className="w-auto h-auto mt-4 mb-4"
+                  className="w-auto h-auto mt-4 mb-4 pointer-events-none"
                   style={{ transform: 'rotate(180deg)' }}
                 />
               </div>
             </div>
             
             {/* Side containers positioned outside main content */}
-            <div className="space-y-4 flex-shrink-0 w-full lg:w-auto">
-              <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 w-full lg:w-50 animate-drop-in font-sans">
-                <div className="flex items-center mb-2">
+            <div className="space-y-4 flex-shrink-0 w-full lg:w-auto pointer-events-auto">
+              <div className="bg-[#0a0a0a] p-4 rounded-2xl w-full lg:w-50 animate-drop-in font-sans pointer-events-auto">
+                <div className="flex items-center mb-2 pointer-events-auto">
                   <img src="/skills.png" alt="Skills" className="w-6 h-6 mr-2" />
-                  <h3 className="text-lg font-semibold font-digi text-left">{isDarkMode ? "design values" : "hobbies"}</h3>
+                  <h3 className="text-lg font-semibold font-digi text-left pointer-events-auto">{isDarkMode ? "design values" : "hobbies"}</h3>
                 </div>
-                <ul className="text-white/80 space-y-2 flex flex-col min-h-[120px] font-sans">
+                <ul className="text-white/80 space-y-2 flex flex-col min-h-[120px] font-sans pointer-events-auto">
                   {currentContent.skills.map((skill, index) => (
-                    <li key={index} className="text-sm flex items-start">
+                    <li key={index} className="text-sm flex items-start pointer-events-auto">
                       <img src="/sparkle.png" alt="sparkle" className="mr-2 flex-shrink-0 mt-0.5" />
-                      <span className="text-left">{skill}</span>
+                      <span className="text-left pointer-events-auto">{skill}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="bg-[#0d0d0d] p-4 rounded-lg border border-white/5 flex flex-col min-h-[120px] w-full lg:w-50 animate-drop-in font-sans">
-                <div className="flex items-center mb-2">
+              <div className="bg-[#0a0a0a] p-4 rounded-2xl flex flex-col min-h-[120px] w-full lg:w-50 animate-drop-in font-sans pointer-events-auto">
+                <div className="flex items-center mb-2 pointer-events-auto">
                   <img src="/emailicon.png" alt="Contact" className="w-6 h-6 mr-2" />
-                  <h3 className="text-lg font-semibold font-digi text-left">contact</h3>
+                  <h3 className="text-lg font-semibold font-digi text-left pointer-events-auto">contact</h3>
                 </div>
-                <div className="space-y-3 flex-1 flex flex-col justify-center font-sans">
+                <div className="space-y-3 flex-1 flex flex-col justify-center font-sans pointer-events-auto">
                   <a 
                     href="https://www.linkedin.com/in/dananyc/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+                    className="flex items-center space-x-2 hover:opacity-80 transition-opacity pointer-events-auto"
                   >
                     <img src="/linkedin.png" alt="LinkedIn" className="w-8 h-8" />
-                    <span className="text-sm">/danaespine</span>
+                    <span className="text-sm pointer-events-auto">/danaespine</span>
                   </a>
                   <a 
                     href="https://github.com/danapixels" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+                    className="flex items-center space-x-2 hover:opacity-80 transition-opacity pointer-events-auto"
                   >
                     <img src="/github.png" alt="GitHub" className="w-8 h-8" />
-                    <span className="text-sm">/danapixels</span>
+                    <span className="text-sm pointer-events-auto">/danapixels</span>
                   </a>
                   <a 
                     href="mailto:hi@dana.nyc"
-                    className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+                    className="flex items-center space-x-2 hover:opacity-80 transition-opacity pointer-events-auto"
                   >
                     <img src="/email.png" alt="Email" className="w-8 h-8" />
-                    <span className="text-sm">hi@dana.nyc</span>
+                    <span className="text-sm pointer-events-auto">hi@dana.nyc</span>
                   </a>
                 </div>
               </div>

@@ -1,92 +1,83 @@
 [
   {
-    "id": "74ddc9b5-33d5-4d80-bada-fa2c213ab16f",
-    "type": "diamond",
-    "x": "51.258703802892335%",
-    "y": "71.0576923076923%",
-    "rotation": -7.701080164412466,
+    "id": "666cf78f-84f4-44ed-a957-588f1254137c",
+    "type": "silver",
+    "x": "45.2597750401714%",
+    "y": "78.26923076923077%",
+    "rotation": -12.405226846931566,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Designer"
+    "userIdentity": "Engineer"
   },
   {
-    "id": "6065805c-1736-475f-bcd6-1fbcb54e004c",
-    "type": "diamond",
-    "x": "27.04874129619711%",
-    "y": "69.8076923076923%",
-    "rotation": -3.2381687665191663,
+    "id": "20bb8ffc-4716-44f7-ba4e-077bd5606a76",
+    "type": "silver",
+    "x": "33.15479378682378%",
+    "y": "77.6923076923077%",
+    "rotation": -9.943126483539919,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Designer"
+    "userIdentity": "Engineer"
   },
   {
-    "id": "0af4893d-d062-4d1c-9324-2249ae7c10ac",
-    "type": "diamond",
-    "x": "18.69309051955008%",
-    "y": "54.32692307692307%",
-    "rotation": -5.043126066786744,
+    "id": "d896eacb-cad1-4ef3-83ed-391d44914d17",
+    "type": "silver",
+    "x": "64.64916979110873%",
+    "y": "78.17307692307692%",
+    "rotation": -10.242748688579677,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Designer"
+    "userIdentity": "Recruiter"
   },
   {
-    "id": "d60d3e6d-8e11-409e-99c4-d9036af14206",
-    "type": "diamond",
-    "x": "19.871451526513123%",
-    "y": "48.17307692307693%",
-    "rotation": 6.055064571624548,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Designer"
-  },
-  {
-    "id": "b1769255-ead5-4354-b41f-6975e03f4c13",
-    "type": "diamond",
-    "x": "65.29191215854311%",
-    "y": "81.63461538461539%",
-    "rotation": -11.437604591490848,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Designer"
-  },
-  {
-    "id": "6f782959-117a-4e17-9343-fdf9dc97ae38",
-    "type": "diamond",
-    "x": "70.32672737011248%",
-    "y": "66.53846153846153%",
-    "rotation": 4.028109661236222,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Leadership"
-  },
-  {
-    "id": "9fead6d6-6856-4327-9b96-94b680f4c36e",
+    "id": "88efbe36-e39e-47d0-9164-7c3fae4b3805",
     "type": "bronze",
-    "x": "38.832351365827535%",
-    "y": "75.28846153846153%",
-    "rotation": 8.101060087509303,
+    "x": "16.657739689341188%",
+    "y": "64.71153846153847%",
+    "rotation": 2.7418742686088713,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Recruiter"
+  },
+  {
+    "id": "24387317-da7b-456d-abe5-b59fcd853ec7",
+    "type": "bronze",
+    "x": "61.971076593465455%",
+    "y": "65.09615384615385%",
+    "rotation": 4.325716918263673,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Recruiter"
+  },
+  {
+    "id": "d15bd71a-34ad-48f6-8901-b5d769309cf3",
+    "type": "diamond",
+    "x": "88.97810218978101%",
+    "y": "47.427293064876956%",
+    "rotation": -12.149269573688809,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Recruiter"
+  },
+  {
+    "id": "f2bed035-1943-476d-8761-e84f408b67e9",
+    "type": "diamond",
+    "x": "84.67153284671532%",
+    "y": "31.096196868008946%",
+    "rotation": 10.833165385229854,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
     "userIdentity": "Leadership"
   },
   {
-    "id": "7645c043-9586-4f19-82e8-806c71eb6577",
-    "type": "silver",
-    "x": "61.38189608998393%",
-    "y": "74.32692307692308%",
-    "rotation": -8.239686704184018,
+    "id": "bc8ebb97-3d48-4856-b0e4-ff8b7e0e09bd",
+    "type": "diamond",
+    "x": "11.313868613138686%",
+    "y": "22.03579418344519%",
+    "rotation": 8.09147532304333,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Recruiter"
+    "userIdentity": "Leadership"
   },
   {
-    "id": "350b0ce9-4364-4e75-a08c-861d657d7073",
-    "type": "silver",
-    "x": "12.212104981253349%",
-    "y": "30.480769230769234%",
-    "rotation": 12.230197680755001,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Recruiter"
-  },
-  {
-    "id": "c5452409-1cf9-49e5-aa52-a60a4f92334d",
+    "id": "c8031a62-2cbf-4811-ae09-42aa1f111b19",
     "type": "gold",
-    "x": "23.942153186930906%",
-    "y": "86.92307692307692%",
-    "rotation": -6.747587115041943,
+    "x": "88.17518248175182%",
+    "y": "25.95078299776286%",
+    "rotation": 1.2996809308922366,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "PM"
+    "userIdentity": "Leadership"
   }
 ]
