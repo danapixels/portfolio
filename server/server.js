@@ -74,9 +74,9 @@ app.post('/api/stamps', (req, res) => {
     return res.json({ success: true, message: 'Stamp limit reached, all stamps cleared' });
   }
 
-  // Limit to 10 stamps per user
+  // Limit to 100 stamps per user
   const userStamps = stamps.filter(s => s.user === newStamp.user);
-  if (userStamps.length >= 10) {
+  if (userStamps.length >= 100) {
     return res.status(403).json({ error: 'Stamp limit reached' });
   }
 

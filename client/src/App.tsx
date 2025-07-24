@@ -162,7 +162,7 @@ export default function App() {
               }}
             >
               {/* Add StampingArea component */}
-              <StampingArea selectedIdentity={selectedIdentity} />
+              <StampingArea selectedIdentity={selectedIdentity} onIdentitySelect={handleIdentitySelect} />
 
               {/* Header */}
               <header className="w-full z-50 pointer-events-none">
@@ -186,8 +186,7 @@ export default function App() {
               <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-4 items-center justify-center z-10 px-4 min-h-[calc(100vh-200px)] relative pb-32 pointer-events-none">
                 {/* Content containers */}
                 <div
-                  className="bg-[#0d0d0d] rounded-2xl shadow-2xl flex-1 flex flex-col items-center w-full lg:w-[400px] animate-drop-in relative pointer-events-auto"
-                  style={{ backdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.05)" }}
+                  className="bg-[#0a0a0a] rounded-2xl flex-1 flex flex-col items-center w-full lg:w-[400px] animate-drop-in relative pointer-events-auto"
                 >
                   <div className="w-full flex flex-col items-center pointer-events-auto">
                     <img 
@@ -207,11 +206,7 @@ export default function App() {
                               style={{ fontFamily: "'Pixelify Sans', sans-serif" }}
                             >
                               <div className="font-digi pointer-events-auto">
-                                <TypewriterText 
-                                  text={currentText} 
-                                  onComplete={handleTextAnimationComplete}
-                                  isAnimated={!hasAnimatedTexts[currentKey]}
-                                />
+                                {currentText}
                               </div>
                             </motion.div>
                             <motion.div
@@ -223,6 +218,7 @@ export default function App() {
                               <ToggleSwitch
                                 isOn={isDarkMode}
                                 handleToggle={() => setIsDarkMode(!isDarkMode)}
+                                className="cursor-pointer"
                               />
                             </motion.div>
                           </div>
@@ -240,14 +236,14 @@ export default function App() {
 
                 {/* Projects Section */}
                 <div className="w-full lg:w-[400px] space-y-4 animate-drop-in relative z-10 pointer-events-auto">
-                  <div className="bg-[#0d0d0d] rounded-2xl shadow-2xl p-6 backdrop-blur-md border border-white/5 pointer-events-auto">
+                  <div className="bg-[#0a0a0a] rounded-1xl p-6 pointer-events-auto">
                     <div className="space-y-4 pointer-events-auto">
                       {projects.map((project, index) => (
                         project.link.startsWith('/') ? (
                           <Link 
                             key={index}
                             to={project.link}
-                            className="block p-4 rounded-xl hover:bg-[#2a2a2a] transition-colors text-left pointer-events-auto"
+                            className="block p-4 rounded-xl hover:bg-[#2a2a2a] transition-colors text-left pointer-events-auto cursor-pointer"
                           >
                             <div className="flex gap-4 items-center pointer-events-auto">
                               <img 
@@ -256,7 +252,7 @@ export default function App() {
                                 className="w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
                               <div className="flex-1 text-left pointer-events-auto">
-                                <h3 className="text-base mb-2 text-white font-sans pointer-events-auto" style={{ fontWeight: 400 }}>{project.title}</h3>
+                                <h3 className="text-base mb-2 text-white pointer-events-auto" style={{ fontWeight: 400, fontFamily: "'Fira Code', monospace" }}>{project.title}</h3>
                                 <p className="text-white/80 text-left text-sm pointer-events-auto">{project.description}</p>
                               </div>
                             </div>
@@ -265,7 +261,7 @@ export default function App() {
                           <a 
                             key={index}
                             href={project.link}
-                            className="block p-4 rounded-xl hover:bg-[#2a2a2a] transition-colors text-left pointer-events-auto"
+                            className="block p-4 rounded-xl hover:bg-[#2a2a2a] transition-colors text-left pointer-events-auto cursor-pointer"
                           >
                             <div className="flex gap-4 items-center pointer-events-auto">
                               <img 
@@ -274,7 +270,7 @@ export default function App() {
                                 className="w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
                               <div className="flex-1 text-left pointer-events-auto">
-                                <h3 className="text-base mb-2 text-white font-sans pointer-events-auto" style={{ fontWeight: 400 }}>{project.title}</h3>
+                                <h3 className="text-base mb-2 text-white pointer-events-auto" style={{ fontWeight: 400, fontFamily: "'Fira Code', monospace" }}>{project.title}</h3>
                                 <p className="text-white/80 text-left text-sm pointer-events-auto">{project.description}</p>
                               </div>
                             </div>

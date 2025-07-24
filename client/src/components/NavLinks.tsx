@@ -4,7 +4,7 @@ const NavLinks = () => (
   <nav className="flex items-center space-x-6">
     <Link
       to="/about"
-      className="text-white hover:text-white/80 transition-colors font-digi"
+      className="text-white hover:text-white/80 transition-colors font-digi cursor-pointer"
       style={{ fontSize: '16px' }}
     >
       About

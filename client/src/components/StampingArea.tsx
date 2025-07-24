@@ -33,9 +33,10 @@ type Stamp = {
 interface StampingAreaProps {
   className?: string;
   selectedIdentity?: UserIdentity | null;
+  onIdentitySelect?: (identity: UserIdentity | null) => void;
 }
 
-export default function StampingArea({ className = "", selectedIdentity: _selectedIdentity = null }: StampingAreaProps) {
+export default function StampingArea({ className = "", selectedIdentity: _selectedIdentity = null, onIdentitySelect }: StampingAreaProps) {
   const [stamps, setStamps] = useState<Stamp[]>([]);
   const [userId, setUserId] = useState("");
   const [userStampCount, setUserStampCount] = useState(100);
@@ -43,6 +44,18 @@ export default function StampingArea({ className = "", selectedIdentity: _select
   const [currentTime, setCurrentTime] = useState("");
   const [showChips, setShowChips] = useState(false);
   const [selectedIdentity, setSelectedIdentity] = useState<UserIdentity | null>(_selectedIdentity);
+
+  // Update local state when prop changes
+  useEffect(() => {
+    setSelectedIdentity(_selectedIdentity);
+  }, [_selectedIdentity]);
+
+  const handleIdentityChange = (identity: UserIdentity | null) => {
+    setSelectedIdentity(identity);
+    if (onIdentitySelect) {
+      onIdentitySelect(identity);
+    }
+  };
 
   useEffect(() => {
     const id = localStorage.getItem("userId") || crypto.randomUUID();
@@ -91,6 +104,13 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     };
   }, []);
 
+  useEffect(() => {
+    document.body.style.cursor = `url('/cursor.png'), auto`;
+    return () => {
+      document.body.style.cursor = '';
+    };
+  }, []);
+
   const isAM = () => {
     const now = new Date();
     return now.getHours() < 12;
@@ -126,7 +146,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
 
     // Clamp the coordinates so the stamp is always fully visible
     x = clamp(x, 3, 97);
-    y = clamp(y, 3, 97);
+    y = clamp(y, 8, 97);
 
     // Check if the click is within the stamping area bounds
     if (x < 0 || x > 100 || y < 0 || y > 100) {
@@ -159,7 +179,8 @@ export default function StampingArea({ className = "", selectedIdentity: _select
 
       if (!response.ok) {
         if (data.error === 'Stamp limit reached') {
-          alert('You have reached your stamp limit!');
+          // Stamp limit reached: do nothing or log to console
+          console.log('You have reached your stamp limit!');
           return;
         }
         throw new Error(data.error || 'Failed to save stamp');
@@ -262,7 +283,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
         onClick={handlePlaceStamp}
         className={`fixed inset-0 z-0 ${className}`}
         style={{ 
-          cursor: selectedStamp ? "crosshair" : "default",
+          cursor: selectedStamp ? "url('/stamping.png'), auto" : "url('/cursor.png'), auto",
           pointerEvents: selectedStamp ? "auto" : "none",
           // backgroundColor: "#111111",
           // backgroundImage: "linear-gradient(#1f1f1f 1px, transparent 1px), linear-gradient(90deg, #1f1f1f 1px, transparent 1px)",
@@ -281,10 +302,9 @@ export default function StampingArea({ className = "", selectedIdentity: _select
                 zIndex: 31,
                 filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))",
                 transition: "transform 0.05s ease-out",
-                pointerEvents: "auto"
+                pointerEvents: "none"
               }}
               className=""
-              onClick={(e) => e.stopPropagation()}
             >
               {stampIcons[stamp.type]}
             </div>
@@ -306,7 +326,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
                   border: "1px solid rgba(255, 255, 255, 0.1)",
                   fontFamily: "'Pixelify Sans', sans-serif",
                   whiteSpace: "nowrap",
-                  opacity: 0.5,
+                  opacity: 1,
                   paddingTop: "2px"
                 }}
               >
@@ -347,7 +367,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
             style={{ background: 'transparent' }}
           />
           <div className="fixed left-1/2 bottom-24 transform -translate-x-1/2 z-50">
-            <IdentityChips selectedIdentity={selectedIdentity} onIdentitySelect={(identity) => { setSelectedIdentity(identity); setShowChips(false); }} />
+            <IdentityChips selectedIdentity={selectedIdentity} onIdentitySelect={(identity) => { handleIdentityChange(identity); setShowChips(false); }} />
           </div>
         </>
       )}
