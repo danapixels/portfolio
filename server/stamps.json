@@ -115,5 +115,40 @@
     "rotation": 4.925615773032302,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
     "userIdentity": "Engineer"
+  },
+  {
+    "id": "dff7b130-95b8-471a-a28e-24f2a0d3d075",
+    "type": "bronze",
+    "x": "50.18261504747991%",
+    "y": "76.43097643097643%",
+    "rotation": 0.12911853292464848,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd"
+  },
+  {
+    "id": "a1e18969-5ab0-4cde-9cbb-b287033686fd",
+    "type": "gold",
+    "x": "17.300482056775575%",
+    "y": "37.019230769230774%",
+    "rotation": 2.289034158982929,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Engineer"
+  },
+  {
+    "id": "06592f9e-1237-4ea2-8c08-0d8d19fed145",
+    "type": "gold",
+    "x": "80.02142474558114%",
+    "y": "55.00000000000001%",
+    "rotation": -0.7997466244120073,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Engineer"
+  },
+  {
+    "id": "08e2c9e8-1c9c-4a4c-a82b-e847ee0a7d44",
+    "type": "diamond",
+    "x": "25.12051419389395%",
+    "y": "69.03846153846153%",
+    "rotation": -13.563718335861626,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Cat"
   }
 ]
