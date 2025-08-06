@@ -5,7 +5,7 @@ interface ToggleSwitchProps {
   handleToggle: () => void;
   className?: string;
 }
-
+// different switch images for light and dark mode
 const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ isOn, handleToggle, className = "" }) => {
   return (
     <button

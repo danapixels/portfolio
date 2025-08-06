@@ -320,7 +320,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
               style={{
                 position: "absolute",
                 left: stamp.x,
-                top: `calc(${stamp.y} + 40px)`,
+                top: `calc(${stamp.y} + 45px)`,
                 transform: "translate(-50%, -50%)",
                 zIndex: 31,
                 pointerEvents: "none"
