@@ -150,5 +150,41 @@
     "rotation": -13.563718335861626,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
     "userIdentity": "Cat"
+  },
+  {
+    "id": "53ed928b-b9e9-4d35-b11b-73575bb4f4fa",
+    "type": "diamond",
+    "x": "56.025709694697376%",
+    "y": "68.26923076923077%",
+    "rotation": -0.4279750836399838,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Cat"
+  },
+  {
+    "id": "5a478394-40d9-4dc9-9671-e321fc21e37d",
+    "type": "gold",
+    "x": "20.192822710230317%",
+    "y": "56.15384615384615%",
+    "rotation": -3.581689647477983,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Cat"
+  },
+  {
+    "id": "1eb4df0d-57fd-403d-8269-3a175501c98b",
+    "type": "gold",
+    "x": "39.90358864488484%",
+    "y": "87.59615384615384%",
+    "rotation": -9.241996236859258,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Engineer"
+  },
+  {
+    "id": "493c5997-2c60-4861-942a-4791a8becd90",
+    "type": "gold",
+    "x": "57.73968934118907%",
+    "y": "88.84615384615384%",
+    "rotation": 5.373941923516661,
+    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
+    "userIdentity": "Leadership"
   }
 ]
