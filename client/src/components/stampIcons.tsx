@@ -2,7 +2,7 @@
 import React from "react";
 import type { StampType } from "./types";
 
-// all 4 stamps on the dock
+// all 4 stamps images
 export const stampIcons: Record<StampType, React.ReactNode> = {
   gold: <img src="/star.png" alt="Star Stamp" />,
   silver: <img src="/heart.png" alt="Heart Stamp" />,

@@ -1,190 +1,92 @@
 [
   {
-    "id": "666cf78f-84f4-44ed-a957-588f1254137c",
-    "type": "silver",
-    "x": "45.2597750401714%",
-    "y": "78.26923076923077%",
-    "rotation": -12.405226846931566,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Engineer"
-  },
-  {
-    "id": "20bb8ffc-4716-44f7-ba4e-077bd5606a76",
-    "type": "silver",
-    "x": "33.15479378682378%",
-    "y": "77.6923076923077%",
-    "rotation": -9.943126483539919,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Engineer"
-  },
-  {
-    "id": "d896eacb-cad1-4ef3-83ed-391d44914d17",
-    "type": "silver",
-    "x": "64.64916979110873%",
-    "y": "78.17307692307692%",
-    "rotation": -10.242748688579677,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Recruiter"
-  },
-  {
-    "id": "88efbe36-e39e-47d0-9164-7c3fae4b3805",
+    "id": "87d42693-4d6c-47d7-9b01-f9f83d4b7179",
     "type": "bronze",
-    "x": "16.657739689341188%",
-    "y": "64.71153846153847%",
-    "rotation": 2.7418742686088713,
+    "x": "48.960931005818786%",
+    "y": "73.86634844868735%",
+    "rotation": -1.4634526903129306,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Recruiter"
+    "userIdentity": "Leadership",
+    "timestamp": "08.15.2025"
   },
   {
-    "id": "24387317-da7b-456d-abe5-b59fcd853ec7",
-    "type": "bronze",
-    "x": "61.971076593465455%",
-    "y": "65.09615384615385%",
-    "rotation": 4.325716918263673,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Recruiter"
-  },
-  {
-    "id": "d15bd71a-34ad-48f6-8901-b5d769309cf3",
+    "id": "e63ffb5b-ac73-4cb1-8816-e7b0c0120cb5",
     "type": "diamond",
-    "x": "88.97810218978101%",
-    "y": "47.427293064876956%",
-    "rotation": -12.149269573688809,
+    "x": "65.5860349127182%",
+    "y": "75.65632458233891%",
+    "rotation": 9.92513120408319,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Recruiter"
+    "userIdentity": "Leadership",
+    "timestamp": "08.15.2025"
   },
   {
-    "id": "f2bed035-1943-476d-8761-e84f408b67e9",
+    "id": "15c36464-4943-4ba6-b88e-f0e6550395fb",
     "type": "diamond",
-    "x": "84.67153284671532%",
-    "y": "31.096196868008946%",
-    "rotation": 10.833165385229854,
+    "x": "88.02992518703242%",
+    "y": "75.77565632458234%",
+    "rotation": -4.858265134539309,
     "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Leadership"
+    "userIdentity": "Leadership",
+    "timestamp": "08.15.2025"
   },
   {
-    "id": "bc8ebb97-3d48-4856-b0e4-ff8b7e0e09bd",
-    "type": "diamond",
-    "x": "11.313868613138686%",
-    "y": "22.03579418344519%",
-    "rotation": 8.09147532304333,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Leadership"
-  },
-  {
-    "id": "c8031a62-2cbf-4811-ae09-42aa1f111b19",
+    "id": "4610ed04-88c9-494a-9826-3c19106de96e",
     "type": "gold",
-    "x": "88.17518248175182%",
-    "y": "25.95078299776286%",
-    "rotation": 1.2996809308922366,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Leadership"
+    "x": "22.810734463276834%",
+    "y": "72.55369928400954%",
+    "rotation": 1.4649133405683905,
+    "user": "af26abfc-602a-4411-afdd-a3bc42f33f96",
+    "userIdentity": "Engineer",
+    "timestamp": "08.15.2025"
   },
   {
-    "id": "a4796a7d-c5d8-4e9f-9d57-a315c3608301",
+    "id": "6a0dbaeb-645d-48a3-9a3d-1801b7888f68",
     "type": "gold",
-    "x": "59.605551497443386%",
-    "y": "79.53020134228188%",
-    "rotation": -7.815982909376632,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Cat"
+    "x": "84.4632768361582%",
+    "y": "47.37470167064439%",
+    "rotation": 12.934373967082436,
+    "user": "af26abfc-602a-4411-afdd-a3bc42f33f96",
+    "userIdentity": "Engineer",
+    "timestamp": "08.15.2025"
   },
   {
-    "id": "35f90be7-5f35-4270-aca8-f7260a659bea",
-    "type": "silver",
-    "x": "77.86705624543463%",
-    "y": "75.72706935123043%",
-    "rotation": -0.8610023068960491,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Recruiter"
-  },
-  {
-    "id": "5e2ee74b-ec98-4acc-a4b1-4613f8ffab9c",
-    "type": "diamond",
-    "x": "20.014609203798393%",
-    "y": "85.79418344519016%",
-    "rotation": 7.380034652193235,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Recruiter"
-  },
-  {
-    "id": "28126930-7395-4864-a15a-71923e5d289b",
-    "type": "bronze",
-    "x": "8.984660336011688%",
-    "y": "50.671140939597315%",
-    "rotation": 4.925615773032302,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Engineer"
-  },
-  {
-    "id": "dff7b130-95b8-471a-a28e-24f2a0d3d075",
-    "type": "bronze",
-    "x": "50.18261504747991%",
-    "y": "76.43097643097643%",
-    "rotation": 0.12911853292464848,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd"
-  },
-  {
-    "id": "a1e18969-5ab0-4cde-9cbb-b287033686fd",
+    "id": "ff4464ba-af1d-49ff-8b83-8ea723419c91",
     "type": "gold",
-    "x": "17.300482056775575%",
-    "y": "37.019230769230774%",
-    "rotation": 2.289034158982929,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Engineer"
+    "x": "37.63509218054673%",
+    "y": "73.50835322195705%",
+    "rotation": 9.756010280558147,
+    "user": "b6784dc3-211d-4c80-a245-cecd34199fae",
+    "userIdentity": "Leadership",
+    "timestamp": "08.16.2025"
   },
   {
-    "id": "06592f9e-1237-4ea2-8c08-0d8d19fed145",
+    "id": "948a490a-4178-4027-b2b2-27e563490cdc",
     "type": "gold",
-    "x": "80.02142474558114%",
-    "y": "55.00000000000001%",
-    "rotation": -0.7997466244120073,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Engineer"
+    "x": "3.4965034965034967%",
+    "y": "62.64916467780429%",
+    "rotation": 4.69859668439268,
+    "user": "b6784dc3-211d-4c80-a245-cecd34199fae",
+    "userIdentity": "Leadership",
+    "timestamp": "08.16.2025"
   },
   {
-    "id": "08e2c9e8-1c9c-4a4c-a82b-e847ee0a7d44",
-    "type": "diamond",
-    "x": "25.12051419389395%",
-    "y": "69.03846153846153%",
-    "rotation": -13.563718335861626,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Cat"
-  },
-  {
-    "id": "53ed928b-b9e9-4d35-b11b-73575bb4f4fa",
-    "type": "diamond",
-    "x": "56.025709694697376%",
-    "y": "68.26923076923077%",
-    "rotation": -0.4279750836399838,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Cat"
-  },
-  {
-    "id": "5a478394-40d9-4dc9-9671-e321fc21e37d",
+    "id": "4395ed08-4034-4f71-b09e-f95142d242dd",
     "type": "gold",
-    "x": "20.192822710230317%",
-    "y": "56.15384615384615%",
-    "rotation": -3.581689647477983,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Cat"
+    "x": "3%",
+    "y": "33.65155131264916%",
+    "rotation": -1.7431594174403173,
+    "user": "3a99db97-e980-4266-b9bb-7fa1dc449106",
+    "userIdentity": "Engineer",
+    "timestamp": "08.16.2025"
   },
   {
-    "id": "1eb4df0d-57fd-403d-8269-3a175501c98b",
+    "id": "17d71f7d-3495-4c60-bf4d-a9be00cc0270",
     "type": "gold",
-    "x": "39.90358864488484%",
-    "y": "87.59615384615384%",
-    "rotation": -9.241996236859258,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Engineer"
-  },
-  {
-    "id": "493c5997-2c60-4861-942a-4791a8becd90",
-    "type": "gold",
-    "x": "57.73968934118907%",
-    "y": "88.84615384615384%",
-    "rotation": 5.373941923516661,
-    "user": "8b246711-e60f-448d-a1a7-81da8da3bbdd",
-    "userIdentity": "Leadership"
+    "x": "17.394522575869726%",
+    "y": "72.81323877068559%",
+    "rotation": 7.599531900136576,
+    "user": "076aa466-9672-47a9-9572-f27fe4027888",
+    "userIdentity": "Leadership",
+    "timestamp": "08.17.2025"
   }
 ]

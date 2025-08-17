@@ -1,5 +1,6 @@
 import React from 'react';
 
+// props for the toggle switch
 interface ToggleSwitchProps {
   isOn: boolean;
   handleToggle: () => void;

@@ -137,3 +137,16 @@ dist
 
 # Project folders
 projects/
+
+# Docker production files
+Dockerfile.prod
+docker-compose.prod.yml
+env.prod
+nginx.conf
+
+# Server data files
+server/stamps.json
+server/.env
+
+# Production deployment guide
+PRODUCTION_DEPLOYMENT.md
