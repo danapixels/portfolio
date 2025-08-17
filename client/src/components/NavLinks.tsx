@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 
+// nav links component that shows links to my about page and my github page
 const NavLinks = () => (
-  <nav className="flex items-center space-x-6">
+  <nav className="flex items-center space-x-2 sm:space-x-6 cursor-[url('/cursor.png'),_auto]">
     <Link
       to="/about"
       className="text-white hover:text-white/80 transition-colors font-digi cursor-pointer"
@@ -9,7 +10,7 @@ const NavLinks = () => (
     >
       About
     </Link>
-    <div className="flex items-center space-x-3">
+    <div className="flex items-center space-x-1 sm:space-x-3">
       <a
         href="https://github.com/danapixels"
         target="_blank"

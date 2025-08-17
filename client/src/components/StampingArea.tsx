@@ -5,6 +5,7 @@ import { stampIcons } from "./stampIcons";
 import type { StampType, UserIdentity } from "./types";
 import IdentityChips from "./IdentityChips";
 
+// get the icon for the identity (not all in use yet)
 const getIconForIdentity = (identity: UserIdentity) => {
   switch (identity) {
     case "PM": return "/PM.png";
@@ -14,12 +15,13 @@ const getIconForIdentity = (identity: UserIdentity) => {
     case "Recruiter": return "/recruiter.png";
     case "Friend": return "/friend.png";
     case "Cat": return "/caticon.png";
-    case "Designer": return "/designer.png";
+    case "Designer": return "/friend.png";
     case "Other": return "/other.png";
     default: return "";
   }
 };
 
+// stamp type
 type Stamp = {
   id: string;
   type: StampType;
@@ -28,19 +30,22 @@ type Stamp = {
   rotation: number;
   user: string;
   userIdentity?: UserIdentity;
+  timestamp: string; // when the stamp was placed
 };
 
+// props for the stamping area
 interface StampingAreaProps {
   className?: string;
   selectedIdentity?: UserIdentity | null;
   onIdentitySelect?: (identity: UserIdentity | null) => void;
 }
 
+// stamping area component that shows the stamps and the identity chips
 export default function StampingArea({ className = "", selectedIdentity: _selectedIdentity = null, onIdentitySelect }: StampingAreaProps) {
   const [stamps, setStamps] = useState<Stamp[]>([]);
   const [userId, setUserId] = useState("");
   const [userStampCount, setUserStampCount] = useState(100);
-  const [selectedStamp, setSelectedStamp] = useState<StampType | null>(null);
+  const [selectedStamp, setSelectedStamp] = useState<StampType | null>('gold');
   const [currentTime, setCurrentTime] = useState("");
   const [showChips, setShowChips] = useState(false);
   const [selectedIdentity, setSelectedIdentity] = useState<UserIdentity | null>(_selectedIdentity);
@@ -52,7 +57,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     return false;
   });
 
-  // Update local state when prop changes
+  // update local state when prop changes
   useEffect(() => {
     setSelectedIdentity(_selectedIdentity);
   }, [_selectedIdentity]);
@@ -64,12 +69,13 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     }
   };
 
+  // set the user id and update the timestamp
   useEffect(() => {
     const id = localStorage.getItem("userId") || crypto.randomUUID();
     localStorage.setItem("userId", id);
     setUserId(id);
 
-    // Update timestamp
+    // update timestamp
     const updateTime = () => {
       const now = new Date();
       const month = now.getMonth() + 1;
@@ -82,16 +88,18 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     updateTime();
     const timeInterval = setInterval(updateTime, 86400000); // Update once per day
 
-    // Function to fetch stamps
+    // stamp limit 100 to reduce abuse of stamps
     const fetchStamps = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/stamps");
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/stamps`, {
+        credentials: 'include', // important for authentication
+      });
         if (!response.ok) {
           throw new Error('Failed to fetch stamps');
         }
         const data: Stamp[] = await response.json();
         setStamps(data);
-        // Only count stamps for the current user
+        // only count stamps for the current user
         const userCount = data.filter((s) => s.user === id).length;
         setUserStampCount(100 - userCount);
       } catch (error) {
@@ -99,10 +107,9 @@ export default function StampingArea({ className = "", selectedIdentity: _select
       }
     };
 
-    // Initial fetch
     fetchStamps();
 
-    // Set up polling to fetch new stamps every 2 seconds
+    // fetch new stamps every 2 seconds
     const interval = setInterval(fetchStamps, 2000);
 
     return () => {
@@ -111,6 +118,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     };
   }, []);
 
+  // set the cursor to custom cursor
   useEffect(() => {
     document.body.style.cursor = `url('/cursor.png'), auto`;
     return () => {
@@ -118,22 +126,26 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     };
   }, []);
 
+  // check if the current time is AM for the sun/moon icon
   const isAM = () => {
     const now = new Date();
     return now.getHours() < 12;
   };
 
+  // get the title for the stamp
   const getStampTitle = (stamp: Stamp) => {
     let title = stamp.userIdentity ? stamp.userIdentity : (stamp.user === userId ? "" : "Other user's stamp");
     
-    // Add timestamp for ALL stamps
+    // timestamp for all stamps
     title += `\n${currentTime}`;
     
     return title;
   };
 
+  // clamp the value to the min and max (so it doesn't go out of bounds or on the nav bar)
   const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
 
+  // handle the placement of the stamp
   const handlePlaceStamp = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (!selectedStamp || userStampCount <= 0) {
       console.log('Cannot place stamp:', { selectedStamp, userStampCount });
@@ -146,16 +158,16 @@ export default function StampingArea({ className = "", selectedIdentity: _select
       return;
     }
     
-    // Get the click coordinates relative to the stamping area
+    // get the click coordinates relative to the stamping area
     const rect = stampArea.getBoundingClientRect();
     let x = ((e.clientX - rect.left) / rect.width) * 100;
     let y = ((e.clientY - rect.top) / rect.height) * 100;
 
-    // Clamp the coordinates so the stamp is always fully visible
-    x = clamp(x, 3, 97);
-    y = clamp(y, 8, 97);
+          // clamp the coordinates so the stamp is always fully visible (increase top margin to avoid nav)
+      x = clamp(x, 3, 95);
+      y = clamp(y, 15, 95);
 
-    // Check if the click is within the stamping area bounds
+    // check if the click is within the stamping area bounds
     if (x < 0 || x > 100 || y < 0 || y > 100) {
       console.log('Click outside stamping area bounds');
       return;
@@ -171,11 +183,17 @@ export default function StampingArea({ className = "", selectedIdentity: _select
       rotation,
       user: userId,
       userIdentity: selectedIdentity || undefined,
+      timestamp: new Date().toLocaleDateString('en-US', { 
+        month: '2-digit', 
+        day: '2-digit', 
+        year: 'numeric' 
+      }).replace(/\//g, '.'),
     };
 
     try {
-      const response = await fetch("http://localhost:3001/api/stamps", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/stamps`, {
         method: "POST",
+        credentials: 'include', // important for authentication
         headers: {
           "Content-Type": "application/json",
         },
@@ -186,22 +204,24 @@ export default function StampingArea({ className = "", selectedIdentity: _select
 
       if (!response.ok) {
         if (data.error === 'Stamp limit reached') {
-          // Stamp limit reached: do nothing or log to console
+          // stamp limit reached
           console.log('You have reached your stamp limit!');
           return;
         }
         throw new Error(data.error || 'Failed to save stamp');
       }
 
-      // If we get a message about the global limit being reached, refresh stamps
+      // global limit reached, refresh stamps
       if (data.message === 'Stamp limit reached, all stamps cleared') {
         setStamps([]);
         setUserStampCount(100);
         return;
       }
 
-      // Immediately fetch updated stamps from server
-      const stampsResponse = await fetch("http://localhost:3001/api/stamps");
+      // get updated stamps from server
+      const stampsResponse = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/stamps`, {
+        credentials: 'include', // important for authentication
+      });
       if (stampsResponse.ok) {
         const updatedStamps: Stamp[] = await stampsResponse.json();
         setStamps(updatedStamps);
@@ -214,6 +234,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     }
   };
 
+  // clear the stamps
   const clearStamps = useCallback(async () => {
     if (!userId) {
       console.log('No userId available');
@@ -222,8 +243,9 @@ export default function StampingArea({ className = "", selectedIdentity: _select
 
     try {
       console.log('Attempting to clear stamps for user:', userId);
-      const response = await fetch('http://localhost:3001/api/stamps/clear', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/stamps/clear`, {
         method: "POST",
+        credentials: 'include', // important for authentication
         headers: {
           "Content-Type": "application/json"
         },
@@ -238,7 +260,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
         throw new Error(`Failed to clear stamps: ${data.error || response.statusText}`);
       }
 
-      // Update local state to remove user's stamps
+      // update local state to remove user's stamps
       const otherUsersStamps = stamps.filter(stamp => stamp.user !== userId);
       setStamps(otherUsersStamps);
       setUserStampCount(100);
@@ -248,11 +270,16 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     }
   }, [stamps, userId]);
 
+  // dock items
   const dockItems = [
-    // Pencil icon for role chips
+    // role selector icon - shows selected role or default skills icon
     {
-      icon: <img src="/skills.png" alt="Edit role" className="w-6 h-6" style={{ width: '24px', height: '24px' }} />,
-      label: "Choose role",
+      icon: selectedIdentity ? (
+        <img src={getIconForIdentity(selectedIdentity)} alt={selectedIdentity} className="w-6 h-6" style={{ width: '24px', height: '24px' }} />
+      ) : (
+        <img src="/skills.png" alt="Choose role" className="w-6 h-6" style={{ width: '24px', height: '24px' }} />
+      ),
+      label: selectedIdentity ? `Role: ${selectedIdentity}` : "Choose role",
       onClick: () => setShowChips((prev) => !prev),
       type: "pencil",
       style: { padding: 0, borderRadius: 0 }
@@ -284,7 +311,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
 
   return (
     <>
-      {/* Grid Background - This will be our stamping area */}
+      {/* grid bg */}
       <div 
         id="stamping-area"
         onClick={handlePlaceStamp}
@@ -292,14 +319,11 @@ export default function StampingArea({ className = "", selectedIdentity: _select
         style={{ 
           cursor: selectedStamp ? "url('/stamping.png'), auto" : "url('/cursor.png'), auto",
           pointerEvents: selectedStamp ? "auto" : "none",
-          // backgroundColor: "#111111",
-          // backgroundImage: "linear-gradient(#1f1f1f 1px, transparent 1px), linear-gradient(90deg, #1f1f1f 1px, transparent 1px)",
-          // backgroundSize: "32px 32px",
         }}
       >
         {stamps.map((stamp) => (
           <div key={stamp.id}>
-            {/* Rotated stamp */}
+            {/* rotated stamp */}
             <div
               style={{
                 position: "absolute",
@@ -315,7 +339,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
             >
               {stampIcons[stamp.type]}
             </div>
-            {/* Non-rotated label */}
+            {/* non-rotated label */}
             <div
               style={{
                 position: "absolute",
@@ -330,8 +354,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
                 className="px-1 pb-0.5 rounded text-white text-xs font-digi shadow-lg"
                 style={{
                   backgroundColor: "#0d0d0d",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  fontFamily: "'Pixelify Sans', sans-serif",
+                  fontFamily: 'inherit',
                   whiteSpace: "nowrap",
                   opacity: 1,
                   paddingTop: "2px"
@@ -339,14 +362,12 @@ export default function StampingArea({ className = "", selectedIdentity: _select
               >
                 <div className="flex flex-col items-center space-y-1">
                   <div className="flex items-center space-x-1">
-                    {stamp.userIdentity ? (
+                    {stamp.userIdentity && (
                       <img 
                         src={getIconForIdentity(stamp.userIdentity)}
                         alt={stamp.userIdentity}
                         className="w-4 h-4"
                       />
-                    ) : (
-                      <span>{stamp.user === userId ? "" : "Other user's stamp"}</span>
                     )}
                     <img 
                       src={isAM() ? "/sun.png" : "/moon.png"} 
@@ -354,8 +375,8 @@ export default function StampingArea({ className = "", selectedIdentity: _select
                       className="w-4 h-4" 
                     />
                   </div>
-                  <span className="text-white/60 font-digi text-xs" style={{ fontFamily: "'Pixelify Sans', sans-serif", fontSize: '8px' }}>
-                    {currentTime}
+                  <span className="text-white/60 font-digi text-xs" style={{ fontFamily: 'inherit', fontSize: '8px' }}>
+                    {stamp.timestamp}
                   </span>
                 </div>
               </div>
@@ -364,10 +385,10 @@ export default function StampingArea({ className = "", selectedIdentity: _select
         ))}
       </div>
 
-      {/* Chips above the dock */}
+      {/* identity chips above the dock */}
       {showChips && (
         <>
-          {/* Overlay to close chips when clicking outside */}
+          {/* overlay to close chips when clicking outside */}
           <div
             className="fixed inset-0 z-40"
             onClick={() => setShowChips(false)}
@@ -379,20 +400,20 @@ export default function StampingArea({ className = "", selectedIdentity: _select
         </>
       )}
 
-      {/* Role selection prompt */}
+      {/* role selection prompt */}
       {!selectedIdentity && !hasPromptBeenDismissed && (
         <div className="fixed left-1/2 bottom-16 transform -translate-x-1/2 z-60 pointer-events-auto hidden sm:flex">
-          <div className="flex items-center space-x-2 bg-[#0a0a0a] px-4 py-2 rounded-lg">
+          <div className="flex items-center space-x-3 bg-[#0a0a0a] px-4 py-2 rounded-lg">
             <img src="/down.png" alt="Down arrow" />
             <span className="text-white text-sm font-sans" style={{ fontSize: '14px' }}>
-              contribute to my stampfolio, pick a role first!
+              add to my stampfolio
             </span>
           </div>
         </div>
       )}
 
-      {/* Dock */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
+      {/* dock */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none hidden md:block">
         <div 
           className="pointer-events-auto"
           onMouseEnter={() => {
@@ -414,7 +435,6 @@ export default function StampingArea({ className = "", selectedIdentity: _select
         </div>
       </div>
 
-      {/* Removed x stamps left display */}
     </>
   );
 } 

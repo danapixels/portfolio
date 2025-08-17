@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./index.css";
 import { motion } from "framer-motion";
 import ToggleSwitch from "./components/ToggleSwitch";
-import TypewriterText from "./components/TypewriterText";
 import About from "./About";
 import CoreData from "./projects/CoreData";
 import StampingArea from "./components/StampingArea";
@@ -11,8 +10,12 @@ import NavLinks from "./components/NavLinks";
 import IdentityChips from "./components/IdentityChips";
 import type { UserIdentity } from "./components/types";
 import Firebase from "./projects/Firebase";
+import Chevron from "./projects/Chevron";
+import Password from "./Password";
+import AuthGuard from "./components/AuthGuard";
 
-// Add keyframes for the drop-in animation
+
+// page animation
 const styles = `
   @keyframes dropIn {
     0% {
@@ -74,16 +77,31 @@ export default function App() {
   const [isWorkHours, setIsWorkHours] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [selectedIdentity, setSelectedIdentity] = useState<UserIdentity | null>(null);
-  const [hasAnimatedTexts, setHasAnimatedTexts] = useState<{ dark: boolean; light: boolean }>({ dark: false, light: false });
 
-  // Load saved identity from localStorage
+
+  // load saved role identity from localStorage
   useEffect(() => {
     const savedIdentity = localStorage.getItem("userIdentity") as UserIdentity | null;
     if (savedIdentity) {
       setSelectedIdentity(savedIdentity);
     }
+
+    // listen for changes to localStorage from other components
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'userIdentity') {
+        const newIdentity = e.newValue as UserIdentity | null;
+        setSelectedIdentity(newIdentity);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
+  // handle role identity select
   const handleIdentitySelect = (identity: UserIdentity | null) => {
     setSelectedIdentity(identity);
     if (identity) {
@@ -93,27 +111,19 @@ export default function App() {
     }
   };
 
-  const darkModeText = "I'm Dana Espine (: A Senior Product Designer at IBM iX. My UX niche is engineering, data, AI, and advocating for designers.";
-  const lightModeText = "UI/UX open-source advocate, afker, owner of 2 cats, pixel art lover, non-verbal interaction enthusiast, and indie game supporter.";
-
-  const currentKey = isDarkMode ? 'dark' : 'light';
-  const currentText = isDarkMode ? darkModeText : lightModeText;
-
-  const handleTextAnimationComplete = () => {
-    setHasAnimatedTexts(prev => ({ ...prev, [currentKey]: true }));
-  };
 
 
+  // projects swap based on toggle switch
   const projects = isDarkMode ? [
     {
       title: "Google Core Data",
       description: "designing a way for Googlers to better understand their data",
       image: "/google.png",
-      link: "/project"
+      link: "/coredata"
     },
     {
       title: "Google Firebase",
-      description: "created a better ways for developers to monitor their apps",
+      description: "created better ways for developers to monitor their apps",
       image: "/firebase.png",
       link: "/firebase"
     },
@@ -121,36 +131,58 @@ export default function App() {
       title: "Chevron",
       description: "helped employees reduce and understand risk",
       image: "/chevron.png",
-      link: "https://github.com/yourusername/project3"
+      link: "/chevron"
     }
   ] : [
     {
       title: "iamafk",
       description: "a place for your cursor to rest with your friends",
       image: "/iamafk.png",
-      link: "/project"
+      link: "https://iamafk.dev"
     },
     {
       title: "Digi garden",
       description: "a place for my thoughts and writing",
       image: "/digi.png",
-      link: "https://github.com/yourusername/project4"
+      link: "https://digi.dana.nyc"
     },
     {
       title: "Digi font",
       description: "my open-source lowercase pixel font",
       image: "/font.png",
-      link: "https://github.com/yourusername/project5"
+      link: "https://github.com/danapixels/digi-ttf"
     }
   ];
 
   return (
     <Router>
       <Routes>
-        <Route path="/about" element={<About />} />
-        <Route path="/project" element={<CoreData />} />
-        <Route path="/firebase" element={<Firebase />} />
+        {/* Password route - no protection needed */}
+        <Route path="/password" element={<Password />} />
+        
+        {/* Protected routes */}
+        <Route path="/about" element={
+          <AuthGuard>
+            <About />
+          </AuthGuard>
+        } />
+        <Route path="/coredata" element={
+          <AuthGuard>
+            <CoreData />
+          </AuthGuard>
+        } />
+        <Route path="/chevron" element={
+          <AuthGuard>
+            <Chevron />
+          </AuthGuard>
+        } />
+        <Route path="/firebase" element={
+          <AuthGuard>
+            <Firebase />
+          </AuthGuard>
+        } />
         <Route path="/" element={
+          <AuthGuard>
           <>
             <style>{styles}</style>
             <div 
@@ -161,11 +193,13 @@ export default function App() {
                 backgroundSize: "32px 32px",
               }}
             >
-              {/* Add StampingArea component */}
-              <StampingArea selectedIdentity={selectedIdentity} onIdentitySelect={handleIdentitySelect} />
+              {/* stamping area */}
+              <div className="hidden md:block">
+                <StampingArea selectedIdentity={selectedIdentity} onIdentitySelect={handleIdentitySelect} />
+              </div>
 
-              {/* Header */}
-              <header className="w-full z-50 pointer-events-none">
+              {/* header */}
+              <header className="w-full z-50">
                 <div className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
                   <div className="flex items-center pointer-events-auto">
                     <a href="/" className="block">
@@ -176,17 +210,16 @@ export default function App() {
                       />
                     </a>
                   </div>
-                  <nav className="pointer-events-auto">
-                    <NavLinks />
-                  </nav>
+                                      <nav className="pointer-events-auto">
+                      <NavLinks />
+                    </nav>
                 </div>
               </header>
 
-              {/* Main content container */}
+              {/* main container */}
               <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-4 items-center justify-center z-10 px-4 min-h-[calc(100vh-200px)] relative pb-32 pointer-events-none">
-                {/* Content containers */}
                 <div
-                  className="bg-[#0a0a0a] rounded-2xl flex-1 flex flex-col items-center w-full lg:w-[400px] animate-drop-in relative pointer-events-auto"
+                  className="bg-[#0a0a0a] rounded-2xl flex-1 flex flex-col items-center w-full lg:w-[320px] animate-drop-in relative pointer-events-auto"
                 >
                   <div className="w-full flex flex-col items-center pointer-events-auto">
                     <img 
@@ -203,11 +236,21 @@ export default function App() {
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               transition={{ duration: 0.5, delay: 0.4 }}
-                              style={{ fontFamily: "'Pixelify Sans', sans-serif" }}
+                              style={{}}
                             >
-                              <div className="font-digi pointer-events-auto">
-                                {currentText}
-                              </div>
+                              {isDarkMode ? (
+                                <div className="font-digi pointer-events-auto text-center space-y-1">
+                                  <div>I'm Dana Espine (:</div>
+                                  <div>Senior Product Designer @ IBM iX.</div>
+                                  <div>Focus: engineering, data, and AI.</div>
+                                </div>
+                              ) : (
+                                <div className="font-digi pointer-events-auto text-center space-y-1">
+                                  <div>ui/ux open-source advocate.</div>
+                                  <div>Owner of 2 cats.</div>
+                                  <div>Indie game supporter.</div>
+                                </div>
+                              )}
                             </motion.div>
                             <motion.div
                               initial={{ opacity: 0, x: -20 }}
@@ -234,7 +277,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Projects Section */}
+                {/* projects */}
                 <div className="w-full lg:w-[400px] space-y-4 animate-drop-in relative z-10 pointer-events-auto">
                   <div className="bg-[#0a0a0a] rounded-1xl p-6 pointer-events-auto">
                     <div className="space-y-4 pointer-events-auto">
@@ -249,11 +292,11 @@ export default function App() {
                               <img 
                                 src={project.image}
                                 alt={project.title}
-                                className="w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
+                                className="hidden md:block w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
                               <div className="flex-1 text-left pointer-events-auto">
                                 <h3 className="text-base mb-2 text-white pointer-events-auto" style={{ fontWeight: 400, fontFamily: "'Fira Code', monospace" }}>{project.title}</h3>
-                                <p className="text-white/80 text-left text-sm pointer-events-auto">{project.description}</p>
+                                <p className="text-white/80 text-left text-sm pointer-events-auto font-inter">{project.description}</p>
                               </div>
                             </div>
                           </Link>
@@ -267,11 +310,11 @@ export default function App() {
                               <img 
                                 src={project.image}
                                 alt={project.title}
-                                className="w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
+                                className="hidden md:block w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
                               <div className="flex-1 text-left pointer-events-auto">
                                 <h3 className="text-base mb-2 text-white pointer-events-auto" style={{ fontWeight: 400, fontFamily: "'Fira Code', monospace" }}>{project.title}</h3>
-                                <p className="text-white/80 text-left text-sm pointer-events-auto">{project.description}</p>
+                                <p className="text-white/80 text-left text-sm pointer-events-auto font-inter">{project.description}</p>
                               </div>
                             </div>
                           </a>
@@ -285,6 +328,7 @@ export default function App() {
 
             </div>
           </>
+          </AuthGuard>
         } />
       </Routes>
     </Router>

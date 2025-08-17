@@ -1,49 +1,67 @@
-# Production Dockerfile
+# production Dockerfile
 FROM node:18-alpine AS base
 
-# Set working directory
+# set working directory
 WORKDIR /app
 
-# Copy package files
+# copy package files
 COPY client/package*.json ./client/
 COPY server/package*.json ./server/
 
-# Install dependencies
-RUN npm ci --prefix ./client && npm ci --prefix ./server
+# install dependencies
+RUN npm ci --prefix ./client --only=production && npm ci --prefix ./server --only=production
 
-# Copy source code
+# copy source code
 COPY client/ ./client/
 COPY server/ ./server/
 
-# Build client for production
+# build client for production
 RUN cd client && npm run build
 
-# Production stage
+# production stage
 FROM node:18-alpine AS production
 
-# Install nginx
-RUN apk add --no-cache nginx
+# install nginx and create necessary directories
+RUN apk add --no-cache nginx && \
+    mkdir -p /etc/nginx/ssl /var/log/nginx /var/cache/nginx /run/nginx
 
-# Set working directory
+# set working directory
 WORKDIR /app
 
-# Copy built client files
+# copy built client files
 COPY --from=base /app/client/dist /usr/share/nginx/html
 
-# Copy server files
+# copy server files
 COPY --from=base /app/server /app/server
 COPY --from=base /app/server/node_modules /app/server/node_modules
 
-# Copy nginx configuration
+# copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Create environment file for production
+# create non-root user for security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001 && \
+    chown -R nodejs:nodejs /app/server /var/log/nginx /var/cache/nginx /run/nginx
+
+# create environment file for production
 RUN echo "NODE_ENV=production" > .env.prod && \
     echo "VITE_API_URL=/api" >> .env.prod && \
-    echo "ADMIN_KEY=prod-secret-key-change-me" >> .env.prod
+    echo "ADMIN_KEY=prod-secret-key-change-me" >> .env.prod && \
+    echo "JWT_SECRET=prod-jwt-secret-change-me" >> .env.prod && \
+    echo "PASSWORD_HASH=prod-password-hash-change-me" >> .env.prod
 
-# Expose port
-EXPOSE 80
+# expose ports
+EXPOSE 80 443
 
-# Start nginx and server
-CMD ["sh", "-c", "nginx && cd server && node server.js"] 
+# create startup script
+RUN echo '#!/bin/sh' > /start.sh && \
+    echo 'nginx' >> /start.sh && \
+    echo 'cd /app/server' >> /start.sh && \
+    echo 'exec node server.js' >> /start.sh && \
+    chmod +x /start.sh
+
+# switch to non-root user
+USER nodejs
+
+# start nginx and server
+CMD ["/start.sh"] 

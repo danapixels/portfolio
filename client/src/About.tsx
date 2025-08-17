@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import ToggleSwitch from "./components/ToggleSwitch";
-import TypewriterText from "./components/TypewriterText";
 import { Link } from "react-router-dom";
 import StampingArea from "./components/StampingArea";
 import NavLinks from "./components/NavLinks";
 import type { UserIdentity } from "./components/types";
 
-// Reuse the same styles from App.tsx
+
+// animation for page drop-in
 const styles = `
   @keyframes dropIn {
     0% {
@@ -66,12 +66,26 @@ export default function About() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [selectedIdentity, setSelectedIdentity] = useState<UserIdentity | null>(null);
 
-  // Load saved identity from localStorage
+  // load saved identity from localStorage
   useEffect(() => {
     const savedIdentity = localStorage.getItem("userIdentity") as UserIdentity | null;
     if (savedIdentity) {
       setSelectedIdentity(savedIdentity);
     }
+
+    // listen for changes to localStorage from other components
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'userIdentity') {
+        const newIdentity = e.newValue as UserIdentity | null;
+        setSelectedIdentity(newIdentity);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const handleIdentitySelect = (identity: UserIdentity | null) => {
@@ -82,10 +96,10 @@ export default function About() {
       localStorage.removeItem("userIdentity");
     }
   };
-
+  // content for dark mode
   const darkModeContent = {
     title: "i am a senior product designer.",
-    description1: "6 years @ IBM. Currently, designing for Googlers to improve data visibility through cross-functional collaboration, ambiguous ideas, and feature improvements.",
+    description1: "6 years @ IBM iX.\nimproving data visibility with Google \ncreating concepts from the ambiguous.",
     skills: [
       "pushing boundaries",
       "team-focused", 
@@ -100,9 +114,10 @@ export default function About() {
     ]
   };
 
+  // content for light mode
   const lightModeContent = {
     title: "i am chronically online.",
-    description1: "29 years @ Earth. Currently, contributing to open-source projects through UX and making silly websites.",
+    description1: "Pro-open-source. \n Making silly websites. \n Watching YT videos.",
     skills: [
       "indie games",
       "making anything",
@@ -117,8 +132,10 @@ export default function About() {
     ]
   };
 
+  // current content based on dark or light mode
   const currentContent = isDarkMode ? darkModeContent : lightModeContent;
 
+  // return the about page
   return (
     <>
       <style>{styles}</style>
@@ -130,11 +147,13 @@ export default function About() {
           backgroundSize: "32px 32px",
         }}
       >
-        {/* Add StampingArea component */}
-        <StampingArea selectedIdentity={selectedIdentity} onIdentitySelect={handleIdentitySelect} />
+        {/* stamping area*/}
+        <div className="hidden md:block">
+          <StampingArea selectedIdentity={selectedIdentity} onIdentitySelect={handleIdentitySelect} />
+        </div>
 
-        {/* Header */}
-        <header className="w-full z-50 pointer-events-none">
+        {/* header */}
+        <header className="w-full z-50">
           <div className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
             <div className="flex items-center pointer-events-auto">
               <a href="/" className="block">
@@ -151,11 +170,11 @@ export default function About() {
           </div>
         </header>
 
-        {/* Main content container */}
+        {/* main content container */}
         <div className="max-w-screen-xl mx-auto flex items-center justify-center z-10 px-4 min-h-[calc(100vh-200px)] pb-32 pointer-events-none">
           <div className="flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-4 w-full max-w-6xl">
             <div
-              className="bg-[#0a0a0a] rounded-2xl flex flex-col items-center w-full max-w-xl animate-drop-in relative pointer-events-auto"
+              className="bg-[#0a0a0a] rounded-2xl flex flex-col items-center w-full lg:w-[520px] max-w-xl animate-drop-in relative pointer-events-auto"
             >
               <div className="w-full flex flex-col items-center pointer-events-auto">
                 <img 
@@ -201,7 +220,7 @@ export default function About() {
                             className="rounded-lg pointer-events-none"
                           />
                         </div>
-                        <p className="text-white text-sm leading-relaxed font-sans pointer-events-auto">
+                        <p className="text-white text-sm leading-relaxed font-digi whitespace-pre-line pointer-events-auto">
                           {currentContent.description1}
                         </p>
                       </motion.div>
@@ -217,14 +236,14 @@ export default function About() {
               </div>
             </div>
             
-            {/* Side containers positioned outside main content */}
+            {/* 2 containers outside of main container */}
             <div className="space-y-4 flex-shrink-0 w-full lg:w-auto pointer-events-auto">
               <div className="bg-[#0a0a0a] p-4 rounded-2xl w-full lg:w-50 animate-drop-in font-sans pointer-events-auto">
                 <div className="flex items-center mb-2 pointer-events-auto">
                   <img src="/skills.png" alt="Skills" className="w-6 h-6 mr-2" />
                   <h3 className="text-lg font-semibold font-digi text-left pointer-events-auto">{isDarkMode ? "design values" : "hobbies"}</h3>
                 </div>
-                <ul className="text-white/80 space-y-2 flex flex-col min-h-[120px] font-sans pointer-events-auto">
+                <ul className="text-white space-y-2 flex flex-col min-h-[120px] font-sans pointer-events-auto">
                   {currentContent.skills.map((skill, index) => (
                     <li key={index} className="text-sm flex items-start pointer-events-auto">
                       <img src="/sparkle.png" alt="sparkle" className="mr-2 flex-shrink-0 mt-0.5" />

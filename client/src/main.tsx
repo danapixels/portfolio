@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App'  // Your PortfolioHomePage component is here
+import App from './App' // portfolio home
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

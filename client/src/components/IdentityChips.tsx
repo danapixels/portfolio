@@ -1,14 +1,17 @@
 import type { UserIdentity } from "./types";
 
+// props for the identity chips
 interface IdentityChipsProps {
   selectedIdentity: UserIdentity | null;
   onIdentitySelect: (identity: UserIdentity | null) => void;
 }
 
+// list of identities in use
 const identityOptions: UserIdentity[] = [
   "PM", "Engineer", "Leadership", "Recruiter", "Cat", "Designer"
 ];
 
+// get the icon for the identity (not all in use yet)
 const getIconForIdentity = (identity: UserIdentity) => {
   switch (identity) {
     case "PM": return "/PM.png";
@@ -18,12 +21,13 @@ const getIconForIdentity = (identity: UserIdentity) => {
     case "Recruiter": return "/recruiter.png";
     case "Friend": return "/friend.png";
     case "Cat": return "/caticon.png";
-    case "Designer": return "/designer.png";
+    case "Designer": return "/friend.png";
     case "Other": return "/other.png";
     default: return "";
   }
 };
 
+// identity chips component that shows the identities in a chip format
 export default function IdentityChips({ selectedIdentity, onIdentitySelect }: IdentityChipsProps) {
   return (
     <div className="mt-4">
@@ -31,6 +35,7 @@ export default function IdentityChips({ selectedIdentity, onIdentitySelect }: Id
         {identityOptions.map((identity) => (
           <button
             key={identity}
+            type="button"
             onClick={() => onIdentitySelect(selectedIdentity === identity ? null : identity)}
             className={`px-1.5 py-0 rounded-full font-medium transition-all duration-200 flex items-center space-x-1 ${
               selectedIdentity === identity

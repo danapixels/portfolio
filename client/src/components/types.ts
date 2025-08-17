@@ -11,5 +11,5 @@ export type Stamp = {
   id: string;
   user: string;
   type: StampType;
-  userIdentity?: UserIdentity; // optional user identity for hover labels
+  userIdentity?: UserIdentity; // identity image of the user who stamped
 };
