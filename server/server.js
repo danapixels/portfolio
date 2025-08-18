@@ -1,4 +1,5 @@
 const express = require('express');
+const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
@@ -66,7 +67,9 @@ app.post('/api/auth/login', async (req, res) => {
     }
     
     // verify password
-    const isValidPassword = await bcrypt.compare(password, PASSWORD_HASH);
+    const crypto = require('crypto');
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+    const isValidPassword = (hashedPassword === PASSWORD_HASH);
     
     if (!isValidPassword) {
       return res.status(401).json({ error: 'Invalid password' });

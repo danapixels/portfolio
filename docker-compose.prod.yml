@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   portfolio-prod:
     build:
@@ -11,12 +9,15 @@ services:
     environment:
       - NODE_ENV=production
       - VITE_API_URL=/api
-      - ADMIN_KEY=${ADMIN_KEY}
-      - JWT_SECRET=${JWT_SECRET}
-      - PASSWORD_HASH=${PASSWORD_HASH}
       - PORT=3001
+      - DOMAIN=dana.nyc
+      - RATE_LIMIT_WINDOW=60000
+      - RATE_LIMIT_MAX_REQUESTS=100
+      - PASSWORD_HASH=f0713226878b7bcabee80b1f86f0685055f9d12616bdf8ec46fc3c1372d29ec2
+      - JWT_SECRET=f0df9c6c8c7fda46de65e9943755839a9fad612c58cf465dd47d3ed4d00e6580badd58c2555b25529769f540a5bed315a576cd4d692eb44b182ab42b0840c0f0
+      - ADMIN_KEY=529d31086219a3b4df5b7b8b593d9111757304864bbfd9aa9bff9bded19023a4
     env_file:
-      - .env.prod
+      - .env
     restart: unless-stopped
     volumes:
       # Mount SSL certificates (you need to provide these)
@@ -28,7 +29,7 @@ services:
     networks:
       - portfolio-prod
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
       interval: 30s
       timeout: 10s
       retries: 3

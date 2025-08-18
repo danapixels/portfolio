@@ -1,67 +1,56 @@
-# production Dockerfile
+# Production Dockerfile
 FROM node:18-alpine AS base
 
-# set working directory
+# Set working directory
 WORKDIR /app
 
-# copy package files
+# Copy package files
 COPY client/package*.json ./client/
 COPY server/package*.json ./server/
 
-# install dependencies
-RUN npm ci --prefix ./client --only=production && npm ci --prefix ./server --only=production
+# Install ALL dependencies (including dev dependencies for building)
+RUN npm ci --prefix ./client && npm ci --prefix ./server
 
-# copy source code
+# Copy source code
 COPY client/ ./client/
 COPY server/ ./server/
 
-# build client for production
+# Build client for production
 RUN cd client && npm run build
 
-# production stage
+# Remove dev dependencies to reduce image size
+RUN cd client && npm prune --production
+RUN cd server && npm prune --production
+
+# Production stage
 FROM node:18-alpine AS production
 
-# install nginx and create necessary directories
+# Install nginx and create necessary directories
 RUN apk add --no-cache nginx && \
-    mkdir -p /etc/nginx/ssl /var/log/nginx /var/cache/nginx /run/nginx
+    mkdir -p /etc/nginx/ssl /var/log/nginx /var/cache/nginx /run/nginx /var/lib/nginx/tmp
 
-# set working directory
+# Set working directory
 WORKDIR /app
 
-# copy built client files
+# Copy built client files
 COPY --from=base /app/client/dist /usr/share/nginx/html
 
-# copy server files
+# Copy server files and node_modules
 COPY --from=base /app/server /app/server
 COPY --from=base /app/server/node_modules /app/server/node_modules
 
-# copy nginx configuration
+# Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# create non-root user for security
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001 && \
-    chown -R nodejs:nodejs /app/server /var/log/nginx /var/cache/nginx /run/nginx
-
-# create environment file for production
-RUN echo "NODE_ENV=production" > .env.prod && \
-    echo "VITE_API_URL=/api" >> .env.prod && \
-    echo "ADMIN_KEY=prod-secret-key-change-me" >> .env.prod && \
-    echo "JWT_SECRET=prod-jwt-secret-change-me" >> .env.prod && \
-    echo "PASSWORD_HASH=prod-password-hash-change-me" >> .env.prod
-
-# expose ports
-EXPOSE 80 443
-
-# create startup script
+# Create startup script
 RUN echo '#!/bin/sh' > /start.sh && \
     echo 'nginx' >> /start.sh && \
     echo 'cd /app/server' >> /start.sh && \
     echo 'exec node server.js' >> /start.sh && \
     chmod +x /start.sh
 
-# switch to non-root user
-USER nodejs
+# Expose ports
+EXPOSE 80 443
 
-# start nginx and server
-CMD ["/start.sh"] 
+# Start nginx and server as root
+CMD ["/start.sh"]
