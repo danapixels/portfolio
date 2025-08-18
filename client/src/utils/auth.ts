@@ -1,6 +1,6 @@
 // authentication utilities for password protection
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api`;
+const API_BASE_URL = `${import.meta.env.VITE_API_URL || '/api'}`;
 
 // check if user is authenticated by verifying with server
 export async function isAuthenticated(): Promise<boolean> {
