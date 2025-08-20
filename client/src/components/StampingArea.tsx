@@ -91,7 +91,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     // stamp limit 100 to reduce abuse of stamps
     const fetchStamps = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/api/stamps`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/stamps`, {
         credentials: 'include', // important for authentication
       });
         if (!response.ok) {
@@ -191,7 +191,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     };
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/api/stamps`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/stamps`, {
         method: "POST",
         credentials: 'include', // important for authentication
         headers: {
@@ -219,7 +219,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
       }
 
       // get updated stamps from server
-      const stampsResponse = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/api/stamps`, {
+      const stampsResponse = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/stamps`, {
         credentials: 'include', // important for authentication
       });
       if (stampsResponse.ok) {
@@ -243,7 +243,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
 
     try {
       console.log('Attempting to clear stamps for user:', userId);
-      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/api/stamps/clear`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/stamps/clear`, {
         method: "POST",
         credentials: 'include', // important for authentication
         headers: {
