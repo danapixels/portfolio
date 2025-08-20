@@ -403,10 +403,10 @@ export default function StampingArea({ className = "", selectedIdentity: _select
       {/* role selection prompt */}
       {!selectedIdentity && !hasPromptBeenDismissed && (
         <div className="fixed left-1/2 bottom-16 transform -translate-x-1/2 z-60 pointer-events-auto hidden sm:flex">
-          <div className="flex items-center space-x-3 bg-[#0a0a0a] px-4 py-2 rounded-lg">
+          <div className="flex items-center space-x-3 px-4 py-2 rounded-lg">
             <img src="/down.png" alt="Down arrow" />
-            <span className="text-white text-sm font-sans" style={{ fontSize: '14px' }}>
-              add to my stampfolio
+            <span className="text-white text-sm digi-font" style={{ fontSize: '16x' }}>
+              add to my stampfolio :D
             </span>
           </div>
         </div>
