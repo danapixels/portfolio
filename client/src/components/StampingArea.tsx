@@ -405,7 +405,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
         <div className="fixed left-1/2 bottom-16 transform -translate-x-1/2 z-60 pointer-events-auto hidden sm:flex">
           <div className="flex items-center space-x-3 px-4 py-2 rounded-lg">
             <img src="/down.png" alt="Down arrow" />
-            <span className="text-white text-sm digi-font" style={{ fontSize: '16x' }}>
+            <span className="text-white text-sm font-digi" style={{ fontSize: '16x' }}>
               add to my stampfolio :D
             </span>
           </div>
