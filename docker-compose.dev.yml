@@ -13,7 +13,7 @@ services:
       - ./server:/app/server
       - /app/client/node_modules
       - /app/server/node_modules
-    environment:
+      - ./server/stamps.json:/app/server/stamps.json
       - NODE_ENV=development
       - VITE_API_URL=http://localhost:3001
       - ADMIN_KEY=dev-secret-key

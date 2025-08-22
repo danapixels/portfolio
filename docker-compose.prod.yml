@@ -20,12 +20,9 @@ services:
       - .env
     restart: unless-stopped
     volumes:
-      # Mount SSL certificates (you need to provide these)
       - ./ssl:/etc/nginx/ssl:ro
-      # Mount logs for debugging
       - ./logs:/var/log/nginx
-      # Mount stamps data (optional - for persistence)
-      - ./data:/app/server/data
+      - ./server/stamps.json:/app/server/stamps.json
     networks:
       - portfolio-prod
     healthcheck:
