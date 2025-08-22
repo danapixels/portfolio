@@ -144,7 +144,7 @@ export default function App() {
       title: "Digi garden",
       description: "a place for my thoughts and writing",
       image: "/digi.png",
-      link: "https://digi.dana.nyc"
+      link: "https://danablog.dev"
     },
     {
       title: "Digi font",
