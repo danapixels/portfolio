@@ -94,6 +94,10 @@ export default function Password() {
         // authentication successful - now save the selected identity
         if (selectedIdentity) {
           localStorage.setItem('userIdentity', selectedIdentity);
+          // dispatch custom event to notify other components
+          window.dispatchEvent(new CustomEvent('identityChanged', { 
+            detail: { identity: selectedIdentity } 
+          }));
         }
         
         setAuthenticated(true); // for backward compatibility

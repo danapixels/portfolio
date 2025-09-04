@@ -81,10 +81,17 @@ export default function About() {
       }
     };
 
+    // listen for custom identity change events
+    const handleIdentityChange = (e: CustomEvent) => {
+      setSelectedIdentity(e.detail.identity);
+    };
+
     window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('identityChanged', handleIdentityChange as EventListener);
     
     return () => {
       window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('identityChanged', handleIdentityChange as EventListener);
     };
   }, []);
 
@@ -140,7 +147,7 @@ export default function About() {
     <>
       <style>{styles}</style>
       <div 
-        className="min-h-screen text-white flex flex-col items-center px-4 relative overflow-hidden font-sans"
+        className="about-page min-h-screen text-white flex flex-col items-center px-4 relative overflow-hidden font-sans"
         style={{
           backgroundColor: "#0a0a0a",
           backgroundImage: "linear-gradient(#0f0f0f 1px, transparent 1px), linear-gradient(90deg, #0f0f0f 1px, transparent 1px)",
@@ -263,25 +270,28 @@ export default function About() {
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center space-x-2 hover:opacity-80 transition-opacity pointer-events-auto"
+                    style={{ cursor: "url('/pointer.png'), pointer" }}
                   >
-                    <img src="/linkedin.png" alt="LinkedIn" className="w-8 h-8" />
-                    <span className="text-sm pointer-events-auto">/danaespine</span>
+                    <img src="/linkedin.png" alt="LinkedIn" className="w-8 h-8" style={{ cursor: "url('/pointer.png'), pointer" }} />
+                    <span className="text-sm pointer-events-auto" style={{ cursor: "url('/pointer.png'), pointer" }}>/danaespine</span>
                   </a>
                   <a 
                     href="https://github.com/danapixels" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center space-x-2 hover:opacity-80 transition-opacity pointer-events-auto"
+                    style={{ cursor: "url('/pointer.png'), pointer" }}
                   >
-                    <img src="/github.png" alt="GitHub" className="w-8 h-8" />
-                    <span className="text-sm pointer-events-auto">/danapixels</span>
+                    <img src="/github.png" alt="GitHub" className="w-8 h-8" style={{ cursor: "url('/pointer.png'), pointer" }} />
+                    <span className="text-sm pointer-events-auto" style={{ cursor: "url('/pointer.png'), pointer" }}>/danapixels</span>
                   </a>
                   <a 
                     href="mailto:hi@dana.nyc"
                     className="flex items-center space-x-2 hover:opacity-80 transition-opacity pointer-events-auto"
+                    style={{ cursor: "url('/pointer.png'), pointer" }}
                   >
-                    <img src="/email.png" alt="Email" className="w-8 h-8" />
-                    <span className="text-sm pointer-events-auto">hi@dana.nyc</span>
+                    <img src="/email.png" alt="Email" className="w-8 h-8" style={{ cursor: "url('/pointer.png'), pointer" }} />
+                    <span className="text-sm pointer-events-auto" style={{ cursor: "url('/pointer.png'), pointer" }}>hi@dana.nyc</span>
                   </a>
                 </div>
               </div>
