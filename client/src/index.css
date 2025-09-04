@@ -67,6 +67,12 @@ span, p, h1, h2, h3, h4, h5, h6, label, .text, .font-digi, .font-sans {
   cursor: url('/highlight.png') 16 16, text;
 }
 
+/* disable highlight cursor on about and app pages */
+.about-page span, .about-page p, .about-page h1, .about-page h2, .about-page h3, .about-page h4, .about-page h5, .about-page h6, .about-page label, .about-page .text, .about-page .font-digi, .about-page .font-sans,
+.app-page span, .app-page p, .app-page h1, .app-page h2, .app-page h3, .app-page h4, .app-page h5, .app-page h6, .app-page label, .app-page .text, .app-page .font-digi, .app-page .font-sans {
+  cursor: url('/cursor.png'), auto;
+}
+
 /* pointer cursor */
 a, button, [role=button], input[type=button], input[type=submit], .cursor-pointer, .nav-link, button:hover {
   cursor: url('/pointer.png'), pointer !important;

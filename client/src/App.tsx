@@ -94,10 +94,17 @@ export default function App() {
       }
     };
 
+    // listen for custom identity change events
+    const handleIdentityChange = (e: CustomEvent) => {
+      setSelectedIdentity(e.detail.identity);
+    };
+
     window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('identityChanged', handleIdentityChange as EventListener);
     
     return () => {
       window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('identityChanged', handleIdentityChange as EventListener);
     };
   }, []);
 
@@ -186,7 +193,7 @@ export default function App() {
           <>
             <style>{styles}</style>
             <div 
-              className="min-h-screen text-white flex flex-col items-center px-4 relative overflow-hidden"
+              className="app-page min-h-screen text-white flex flex-col items-center px-4 relative overflow-hidden"
               style={{
                 backgroundColor: "#0a0a0a",
                 backgroundImage: "linear-gradient(#0f0f0f 1px, transparent 1px), linear-gradient(90deg, #0f0f0f 1px, transparent 1px)",
@@ -287,16 +294,17 @@ export default function App() {
                             key={index}
                             to={project.link}
                             className="block p-4 rounded-xl hover:bg-[#2a2a2a] transition-colors text-left pointer-events-auto cursor-pointer"
+                            style={{ cursor: "url('/pointer.png'), pointer" }}
                           >
-                            <div className="flex gap-4 items-center pointer-events-auto">
+                            <div className="flex gap-4 items-center pointer-events-auto" style={{ cursor: "url('/pointer.png'), pointer" }}>
                               <img 
                                 src={project.image}
                                 alt={project.title}
                                 className="hidden md:block w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
-                              <div className="flex-1 text-left pointer-events-auto">
-                                <h3 className="text-base mb-2 text-white pointer-events-auto" style={{ fontWeight: 400, fontFamily: "'Fira Code', monospace" }}>{project.title}</h3>
-                                <p className="text-white/80 text-left text-sm pointer-events-auto font-inter">{project.description}</p>
+                              <div className="flex-1 text-left pointer-events-auto" style={{ cursor: "url('/pointer.png'), pointer" }}>
+                                <h3 className="text-base mb-2 text-white pointer-events-auto" style={{ fontWeight: 400, fontFamily: "'Fira Code', monospace", cursor: "url('/pointer.png'), pointer" }}>{project.title}</h3>
+                                <p className="text-white/80 text-left text-sm pointer-events-auto font-inter" style={{ cursor: "url('/pointer.png'), pointer" }}>{project.description}</p>
                               </div>
                             </div>
                           </Link>
@@ -305,16 +313,17 @@ export default function App() {
                             key={index}
                             href={project.link}
                             className="block p-4 rounded-xl hover:bg-[#2a2a2a] transition-colors text-left pointer-events-auto cursor-pointer"
+                            style={{ cursor: "url('/pointer.png'), pointer" }}
                           >
-                            <div className="flex gap-4 items-center pointer-events-auto">
+                            <div className="flex gap-4 items-center pointer-events-auto" style={{ cursor: "url('/pointer.png'), pointer" }}>
                               <img 
                                 src={project.image}
                                 alt={project.title}
                                 className="hidden md:block w-20 h-20 rounded-lg object-cover flex-shrink-0 pointer-events-none"
                               />
-                              <div className="flex-1 text-left pointer-events-auto">
-                                <h3 className="text-base mb-2 text-white pointer-events-auto" style={{ fontWeight: 400, fontFamily: "'Fira Code', monospace" }}>{project.title}</h3>
-                                <p className="text-white/80 text-left text-sm pointer-events-auto font-inter">{project.description}</p>
+                              <div className="flex-1 text-left pointer-events-auto" style={{ cursor: "url('/pointer.png'), pointer" }}>
+                                <h3 className="text-base mb-2 text-white pointer-events-auto" style={{ fontWeight: 400, fontFamily: "'Fira Code', monospace", cursor: "url('/pointer.png'), pointer" }}>{project.title}</h3>
+                                <p className="text-white/80 text-left text-sm pointer-events-auto font-inter" style={{ cursor: "url('/pointer.png'), pointer" }}>{project.description}</p>
                               </div>
                             </div>
                           </a>

@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import Dock from "./Dock";
 import type { DockItemData } from "./Dock";
 import { stampIcons } from "./stampIcons";
-import type { StampType, UserIdentity } from "./types";
+import type { StampType, UserIdentity, Stamp } from "./types";
 import IdentityChips from "./IdentityChips";
 
 // get the icon for the identity (not all in use yet)
@@ -19,18 +19,6 @@ const getIconForIdentity = (identity: UserIdentity) => {
     case "Other": return "/other.png";
     default: return "";
   }
-};
-
-// stamp type
-type Stamp = {
-  id: string;
-  type: StampType;
-  x: string;
-  y: string;
-  rotation: number;
-  user: string;
-  userIdentity?: UserIdentity;
-  timestamp: string; // when the stamp was placed
 };
 
 // props for the stamping area
@@ -126,10 +114,13 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     };
   }, []);
 
-  // check if the current time is AM for the sun/moon icon
-  const isAM = () => {
-    const now = new Date();
-    return now.getHours() < 12;
+  // check if the stamp was placed during AM hours for the sun/moon icon
+  const isAM = (hour?: number) => {
+    if (hour !== undefined) {
+      return hour < 12;
+    }
+    // return null to indicate no icon should be shown
+    return null;
   };
 
   // get the title for the stamp
@@ -175,6 +166,7 @@ export default function StampingArea({ className = "", selectedIdentity: _select
     
     const rotation = Math.random() * 30 - 15;
 
+    const now = new Date();
     const newStamp: Stamp = {
       id: crypto.randomUUID(),
       type: selectedStamp,
@@ -183,11 +175,12 @@ export default function StampingArea({ className = "", selectedIdentity: _select
       rotation,
       user: userId,
       userIdentity: selectedIdentity || undefined,
-      timestamp: new Date().toLocaleDateString('en-US', { 
+      timestamp: now.toLocaleDateString('en-US', { 
         month: '2-digit', 
         day: '2-digit', 
         year: 'numeric' 
       }).replace(/\//g, '.'),
+      hour: now.getHours(),
     };
 
     try {
@@ -369,11 +362,13 @@ export default function StampingArea({ className = "", selectedIdentity: _select
                         className="w-4 h-4"
                       />
                     )}
-                    <img 
-                      src={isAM() ? "/sun.png" : "/moon.png"} 
-                      alt={isAM() ? "Sun" : "Moon"} 
-                      className="w-4 h-4" 
-                    />
+                    {isAM(stamp.hour) !== null && (
+                      <img 
+                        src={isAM(stamp.hour) ? "/sun.png" : "/moon.png"} 
+                        alt={isAM(stamp.hour) ? "Sun" : "Moon"} 
+                        className="w-4 h-4" 
+                      />
+                    )}
                   </div>
                   <span className="text-white/60 font-digi text-xs" style={{ fontFamily: 'inherit', fontSize: '8px' }}>
                     {stamp.timestamp}
@@ -432,6 +427,21 @@ export default function StampingArea({ className = "", selectedIdentity: _select
             baseItemSize={50}
             magnification={70}
           />
+        </div>
+      </div>
+
+      {/* question mark icon with tooltip */}
+      <div className="fixed bottom-4 right-4 z-50 pointer-events-auto hidden md:block">
+        <div className="relative group">
+          <img 
+            src="/question.png" 
+            alt="Help" 
+            className="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity"
+          />
+          {/* tooltip */}
+          <div className="absolute bottom-full right-0 mb-2 px-1 py-1 bg-[#0a0a0a] text-white text-xs rounded-[10px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none font-sans max-w-xs" style={{ fontSize: '0.75rem', width: '150px' }}>
+            A way to connect with others who view my portfolio by seeing their role and the time of day placed their stamp.
+          </div>
         </div>
       </div>
 
