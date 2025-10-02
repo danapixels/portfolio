@@ -162,6 +162,28 @@ The project uses Tailwind CSS for styling. Key files:
 - `client/src/components/Dock.css` - Dock-specific styles
 - Component files contain Tailwind classes for styling
 
+## Set Password
+
+The default password is `password` unless you change it.
+
+1. **Generate a new password hash**:
+   ```bash
+   # Using Node.js crypto
+   node -e "const crypto = require('crypto'); console.log(crypto.createHash('sha256').update('your-new-password').digest('hex'));"
+   ```
+
+2. **Set the environment variable**:
+   ```bash
+   # Development (create or update env.dev)
+   echo "PASSWORD_HASH=$(node -e \"const crypto = require('crypto'); console.log(crypto.createHash('sha256').update('your-new-password').digest('hex'));\")" >> env.dev
+   ```
+
+   Or for production:
+   ```bash
+   # Production environment
+   export PASSWORD_HASH=$(node -e "const crypto = require('crypto'); console.log(crypto.createHash('sha256').update('your-new-password').digest('hex'));")
+   ```
+
 ## Troubleshooting
 
 ### Common Issues
