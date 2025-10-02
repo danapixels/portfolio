@@ -1,0 +1,37 @@
+services:
+  portfolio-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=/api
+      - PORT=3001
+      - DOMAIN=your-domain.com
+      - RATE_LIMIT_WINDOW=60000
+      - RATE_LIMIT_MAX_REQUESTS=100
+      - PASSWORD_HASH=your-sha256-password-hash-here
+      - JWT_SECRET=your-secure-jwt-secret-key-here
+      - ADMIN_KEY=your-admin-key-here
+    env_file:
+      - .env.prod
+    restart: unless-stopped
+    volumes:
+      - ./ssl:/etc/nginx/ssl:ro
+      - ./logs:/var/log/nginx
+      - ./server/stamps.json:/app/server/stamps.json
+    networks:
+      - portfolio-prod
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  portfolio-prod:
+    driver: bridge

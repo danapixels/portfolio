@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Portfolio Docker Runner Script
+# runner script
 
 set -e
 

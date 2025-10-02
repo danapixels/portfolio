@@ -18,7 +18,7 @@ const PASSWORD_HASH = process.env.PASSWORD_HASH || '$2a$10$92IXUNpkjO0rOQ5byMi.Y
 
 // allow all origins during development
 app.use((req, res, next) => {
-  // Allow both Vite dev server ports and Docker port
+  // allow both Vite dev server ports and Docker port
   const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173', 'http://127.0.0.1:3000'];
   const origin = req.headers.origin;
   
