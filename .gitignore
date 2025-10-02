@@ -187,6 +187,3 @@ nginx.conf
 # Server data files
 server/stamps.json
 server/.env
-
-# Production deployment guide
-PRODUCTION_DEPLOYMENT.md
