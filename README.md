@@ -1,7 +1,6 @@
 # Stampfolio
 
-My portfolio to connect with others through stamp placement. 
-
+My portfolio to connect with others through stamps. 
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
@@ -11,10 +10,15 @@ My portfolio to connect with others through stamp placement.
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
+
+
+![demo of stampfolio](/stampfoliodemo.gif)
+
+
 ## Features
 
 - **Interactive Stamping System**: Visitors anonymously place stamps on my portfolio
-- **Role-Based Identity**: Users can select their role (PM, Engineer, Manager, etc.) when placing stamps
+- **Role-Based Identity**: Users can select their role (PM, Engineer, Leadership, etc.) when placing stamps
 - **Real-time Updates**: See stamps from others in real-time
 - **Time-based Icons**: Sun/moon icons shown on stamps depending when the time it was placed
 - **Responsive Design**: Works on desktop and mobile devices
