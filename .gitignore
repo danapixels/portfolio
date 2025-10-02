@@ -187,3 +187,6 @@ nginx.conf
 # Server data files
 server/stamps.json
 server/.env
+docker-compose.prod.yml
+env.prod
+nginx.conf
