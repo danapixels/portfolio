@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   portfolio-dev:
     build:
@@ -14,9 +12,8 @@ services:
       - /app/client/node_modules
       - /app/server/node_modules
       - ./server/stamps.json:/app/server/stamps.json
-      - NODE_ENV=development
-      - VITE_API_URL=http://localhost:3001
-      - ADMIN_KEY=dev-secret-key
+    env_file:
+      - env.dev
     networks:
       - portfolio-dev
 

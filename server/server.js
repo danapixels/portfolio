@@ -11,10 +11,12 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const STAMPS_FILE = path.join(__dirname, 'stamps.json');
 
-// load admin key and JWT secret from environment variables
+// default admin key and JWT secret
 const ADMIN_KEY = process.env.ADMIN_KEY || 'my-secret-key';
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production';
-const PASSWORD_HASH = process.env.PASSWORD_HASH || '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; // "password"
+
+// default password is "password"
+const PASSWORD_HASH = process.env.PASSWORD_HASH || '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
 
 // allow all origins during development
 app.use((req, res, next) => {

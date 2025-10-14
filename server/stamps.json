@@ -88,5 +88,15 @@
     "user": "076aa466-9672-47a9-9572-f27fe4027888",
     "userIdentity": "Leadership",
     "timestamp": "08.17.2025"
+  },
+  {
+    "id": "a1dd9e42-8922-462c-b9d3-810f8d6193dd",
+    "type": "gold",
+    "x": "10.464310464310463%",
+    "y": "15%",
+    "rotation": 11.768006564987758,
+    "user": "f642bac1-c5f3-4750-af5c-24e1d5fe02d3",
+    "timestamp": "10.14.2025",
+    "hour": 6
   }
 ]

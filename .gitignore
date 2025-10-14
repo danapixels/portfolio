@@ -135,9 +135,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Project folders
-projects/
-
 # OS generated files
 .DS_Store
 .DS_Store?
@@ -185,7 +182,6 @@ env.prod
 nginx.conf
 
 # Server data files
-server/stamps.json
 server/.env
 docker-compose.prod.yml
 env.prod

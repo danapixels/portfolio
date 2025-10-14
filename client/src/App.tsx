@@ -4,13 +4,13 @@ import "./index.css";
 import { motion } from "framer-motion";
 import ToggleSwitch from "./components/ToggleSwitch";
 import About from "./About";
-import CoreData from "./projects/CoreData";
+import Project1 from "./projects/Project1";
 import StampingArea from "./components/StampingArea";
 import NavLinks from "./components/NavLinks";
 import IdentityChips from "./components/IdentityChips";
 import type { UserIdentity } from "./components/types";
-import Firebase from "./projects/Firebase";
-import Chevron from "./projects/Chevron";
+import Project2 from "./projects/Project2";
+import Project3 from "./projects/Project3";
 import Password from "./Password";
 import AuthGuard from "./components/AuthGuard";
 
@@ -123,41 +123,41 @@ export default function App() {
   // projects swap based on toggle switch
   const projects = isDarkMode ? [
     {
-      title: "Google Core Data",
+      title: "Project 1",
       description: "designing a way for Googlers to better understand their data",
       image: "/google.png",
       link: "/coredata"
     },
     {
-      title: "Google Firebase",
+      title: "Project 2",
       description: "created better ways for developers to monitor their apps",
       image: "/firebase.png",
       link: "/firebase"
     },
     {
-      title: "Chevron",
+      title: "Project 3",
       description: "helped employees reduce and understand risk",
       image: "/chevron.png",
       link: "/chevron"
     }
   ] : [
     {
-      title: "iamafk",
-      description: "a place for your cursor to rest with your friends",
+      title: "Open-source project 1",
+      description: "teaser text here...",
       image: "/iamafk.png",
-      link: "https://iamafk.dev"
+      link: "https://github.com/danapixels/portfolio"
     },
     {
-      title: "Digi garden",
-      description: "a place for my thoughts and writing",
+      title: "Open-source project 2",
+      description: "teaser text here...",
       image: "/digi.png",
-      link: "https://danablog.dev"
+      link: "https://github.com/danapixels/portfolio"
     },
     {
-      title: "Digi font",
-      description: "my open-source lowercase pixel font",
+      title: "Open-source project 3",
+      description: "teaser text here...",
       image: "/font.png",
-      link: "https://github.com/danapixels/digi-ttf"
+      link: "https://github.com/danapixels/portfolio"
     }
   ];
 
@@ -175,17 +175,17 @@ export default function App() {
         } />
         <Route path="/coredata" element={
           <AuthGuard>
-            <CoreData />
+            <Project1 />
           </AuthGuard>
         } />
         <Route path="/chevron" element={
           <AuthGuard>
-            <Chevron />
+            <Project3 />
           </AuthGuard>
         } />
         <Route path="/firebase" element={
           <AuthGuard>
-            <Firebase />
+            <Project2 />
           </AuthGuard>
         } />
         <Route path="/" element={
